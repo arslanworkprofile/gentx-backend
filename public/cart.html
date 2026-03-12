@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.cart-main{max-width:1160px;margin:0 auto;padding:44px 32px 80px;display:grid;grid-template-columns:1fr 360px;gap:36px;align-items:start;}
+/* Items */
+.cart-items-wrap{}
+.cart-col-heads{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;padding:0 0 12px;border-bottom:2px solid #111;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#bbb;}
+.cart-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:center;padding:18px 0;border-bottom:1px solid #f0f0f0;}
+.cart-prod{display:flex;align-items:center;gap:14px;}
+.cart-prod-img{width:70px;height:88px;background:#f5f5f5;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;cursor:pointer;transition:opacity .2s;}
+.cart-prod-img:hover{opacity:.8;}
+.cart-prod-name{font-size:14px;font-weight:600;color:#111;line-height:1.3;cursor:pointer;transition:color .2s;}
+.cart-prod-name:hover{color:#e00;}
+.cart-prod-meta{font-size:11px;color:#bbb;margin-top:3px;}
+.cart-price{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#666;}
+.qty-ctrl{display:flex;align-items:center;border:1px solid #e0e0e0;border-radius:2px;width:fit-content;overflow:hidden;}
+.q-btn{width:30px;height:30px;background:#f5f5f5;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.q-btn:hover{background:#e00;color:#fff;}
+.q-val{width:34px;text-align:center;font-size:13px;font-weight:700;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;padding:4px 0;}
+.cart-total{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#111;}
+.rem-btn{width:28px;height:28px;background:none;color:#ccc;font-size:16px;display:flex;align-items:center;justify-content:center;border-radius:2px;transition:all .2s;}
+.rem-btn:hover{background:rgba(220,0,0,.1);color:#e00;}
+/* Empty cart */
+.empty-cart{text-align:center;padding:80px 20px;}
+.empty-icon{font-size:64px;margin-bottom:18px;}
+.empty-cart h2{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.empty-cart p{color:#888;font-size:14px;margin-bottom:26px;}
+/* Summary */
+.order-summary{background:#f8f8f8;border:2px solid #111;padding:28px;border-radius:2px;position:sticky;top:130px;}
+.sum-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #e00;}
+/* promo */
+.promo-row{display:flex;border:1px solid #e0e0e0;border-radius:2px;overflow:hidden;margin-bottom:20px;}
+.promo-row input{flex:1;border:none;outline:none;padding:10px 14px;font-size:13px;font-family:inherit;}
+.promo-row button{background:#111;color:#fff;padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:background .2s;}
+.promo-row button:hover{background:#e00;}
+.sum-line{display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px;}
+.sum-line span:last-child{font-weight:600;}
+.sum-line.discount span:last-child{color:#e00;}
+hr.sum-hr{border:none;border-top:1px solid #e0e0e0;margin:14px 0;}
+.sum-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
+.sum-total span:first-child{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+.sum-total span:last-child{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#e00;}
+.checkout-btn{display:block;width:100%;background:#e00;color:#fff;padding:16px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;text-align:center;border-radius:2px;transition:all .3s;margin-bottom:10px;}
+.checkout-btn:hover{background:#b80000;transform:translateY(-2px);box-shadow:0 6px 20px rgba(220,0,0,.3);}
+.cont-link{display:block;text-align:center;font-size:13px;color:#aaa;transition:color .2s;}
+.cont-link:hover{color:#e00;}
+.trust-row{display:flex;justify-content:center;gap:16px;margin-top:18px;padding-top:16px;border-top:1px solid #f0f0f0;flex-wrap:wrap;}
+.trust-item{font-size:12px;color:#aaa;display:flex;align-items:center;gap:4px;}
+
+@media(max-width:900px){.cart-main{grid-template-columns:1fr;}.cart-col-heads,.cart-row{grid-template-columns:2fr 1fr 1fr auto;}}
+@media(max-width:600px){.cart-main{padding:24px 16px 60px;}.cart-col-heads,.cart-row{grid-template-columns:1fr auto;gap:8px;}}
+</style>
+
+<div class="gx-page-header">
+  <h1>Your <span>Cart</span></h1>
+  <div class="gx-breadcrumb"><a href="index.html">Home</a> / Cart</div>
+</div>
+
+<main>
+  <div class="cart-main">
+    <div id="cart-items-wrap"></div>
+    <div class="order-summary">
+      <div class="sum-title">Order Summary</div>
+      <div class="promo-row">
+        <input type="text" id="promo-input" placeholder="Promo code (GENTX50)">
+        <button onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="sum-line"><span>Subtotal</span><span id="s-sub">PKR 0</span></div>
+      <div class="sum-line"><span>Shipping</span><span style="color:#22c55e;font-weight:700">FREE</span></div>
+      <div class="sum-line discount" id="discount-row" style="display:none"><span>Discount</span><span id="s-disc">— PKR 0</span></div>
+      <hr class="sum-hr">
+      <div class="sum-total"><span>Total</span><span id="s-total">PKR 0</span></div>
+      <a href="checkout.html" class="checkout-btn" onclick="return checkCart()">Checkout →</a>
+      <a href="shop.html" class="cont-link">← Continue Shopping</a>
+      <div class="trust-row">
+        <div class="trust-item">🔒 Secure</div>
+        <div class="trust-item">🚚 Free Delivery</div>
+        <div class="trust-item">↩️ Easy Returns</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div><div class="gx-flogo">GENT<span>X</span></div><p class="gx-ftxt">Modern fashion for confident men.</p></div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p></div>
+</footer>
+
+<script>
+GentXUI.init('cart');
+let discount = 0;
+
+function renderCart() {
+  const cart = GentXDB.getCart();
+  const wrap = document.getElementById('cart-items-wrap');
+  if (!cart.length) {
+    wrap.innerHTML = `<div class="empty-cart">
+      <div class="empty-icon">🛍️</div>
+      <h2>Your cart is empty</h2>
+      <p>Looks like you haven't added anything yet.</p>
+      <a href="shop.html" class="gx-btn primary">Shop Now →</a>
+    </div>`;
+    updateSummary(0);
+    return;
+  }
+  wrap.innerHTML = `
+    <div class="cart-col-heads"><span>Product</span><span>Price</span><span>Qty</span><span>Total</span><span></span></div>
+    ${cart.map(c=>`
+      <div class="cart-row">
+        <div class="cart-prod">
+          <div class="cart-prod-img" onclick="window.location='product.html?id=${c.id}'">${c.emoji||'👕'}</div>
+          <div>
+            <div class="cart-prod-name" onclick="window.location='product.html?id=${c.id}'">${c.name}</div>
+            <div class="cart-prod-meta">${c.size} · ${c.color}</div>
+          </div>
+        </div>
+        <div class="cart-price">PKR ${c.price.toLocaleString()}</div>
+        <div class="qty-ctrl">
+          <button class="q-btn" onclick="adj('${c.key}',-1)">−</button>
+          <div class="q-val">${c.qty}</div>
+          <button class="q-btn" onclick="adj('${c.key}',1)">+</button>
+        </div>
+        <div class="cart-total">PKR ${(c.price*c.qty).toLocaleString()}</div>
+        <button class="rem-btn" onclick="rem('${c.key}')">✕</button>
+      </div>`).join('')}
+  `;
+  const sub = GentXDB.getCartTotal();
+  updateSummary(sub);
+}
+
+function updateSummary(sub) {
+  const final = Math.max(0, sub - discount);
+  document.getElementById('s-sub').textContent   = 'PKR ' + sub.toLocaleString();
+  document.getElementById('s-total').textContent = 'PKR ' + final.toLocaleString();
+  if (discount > 0) {
+    document.getElementById('discount-row').style.display = 'flex';
+    document.getElementById('s-disc').textContent = '— PKR ' + discount.toLocaleString();
+  }
+}
+
+function adj(key, d) { GentXDB.updateCartQty(key, (GentXDB.getCart().find(c=>c.key===key)?.qty||1)+d); GentXUI.refreshCart(); renderCart(); }
+function rem(key)    { GentXDB.removeFromCart(key); GentXUI.refreshCart(); renderCart(); }
+
+function applyPromo() {
+  const code = document.getElementById('promo-input').value.trim().toUpperCase();
+  const sub = GentXDB.getCartTotal();
+  if (code === 'GENTX50') { discount = Math.floor(sub*0.5); GentXUI.toast('✓ 50% discount applied!'); }
+  else if (code === 'GENTX10') { discount = Math.floor(sub*0.1); GentXUI.toast('✓ 10% discount applied!'); }
+  else { GentXUI.toast('⚠ Invalid promo code'); return; }
+  renderCart();
+}
+
+function checkCart() {
+  if (!GentXDB.getCart().length) { GentXUI.toast('⚠ Your cart is empty!'); return false; }
+  return true;
+}
+
+renderCart();
+</script>
+</body>
+</html>

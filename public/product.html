@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.prod-layout{max-width:1200px;margin:0 auto;padding:48px 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+.prod-img-col{}
+.prod-img-main{aspect-ratio:4/5;background:#f5f5f5;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:180px;overflow:hidden;position:relative;}
+.prod-img-main img{width:100%;height:100%;object-fit:cover;}
+.prod-img-thumbs{display:flex;gap:10px;margin-top:14px;}
+.prod-thumb{width:70px;height:88px;background:#f0f0f0;border-radius:2px;border:2px solid transparent;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;transition:border-color .2s;}
+.prod-thumb.active,.prod-thumb:hover{border-color:#e00;}
+/* INFO */
+.prod-info-col{}
+.prod-brand{font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
+.prod-name{font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;letter-spacing:.03em;line-height:1;margin-bottom:14px;text-transform:uppercase;}
+.prod-rating{display:flex;align-items:center;gap:8px;margin-bottom:18px;}
+.stars{color:#e00;font-size:14px;letter-spacing:2px;}
+.rating-count{font-size:12px;color:#999;}
+.prod-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
+.prod-price{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:#e00;}
+.prod-old{font-size:18px;color:#bbb;text-decoration:line-through;}
+.prod-save{display:inline-block;background:rgba(220,0,0,.1);color:#e00;border:1px solid rgba(220,0,0,.2);padding:3px 10px;font-size:12px;font-weight:700;border-radius:2px;letter-spacing:.08em;}
+.prod-stock{font-size:13px;margin-bottom:22px;}
+.prod-stock.instock{color:#22c55e;font-weight:600;}
+.prod-stock.low{color:#f97316;font-weight:600;}
+.prod-divider{border:none;border-top:1px solid #e8e8e8;margin:20px 0;}
+/* Options */
+.option-label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:10px;}
+.size-btns,.color-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.size-btn{padding:8px 16px;border:2px solid #e0e0e0;background:none;font-size:13px;font-weight:600;border-radius:2px;transition:all .2s;cursor:pointer;}
+.size-btn:hover,.size-btn.active{border-color:#e00;color:#e00;background:rgba(220,0,0,.05);}
+.color-btn{width:32px;height:32px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .2s;outline:2px solid transparent;}
+.color-btn.active{outline-color:#e00;outline-offset:2px;}
+/* Qty + add */
+.qty-add-row{display:flex;gap:14px;align-items:center;margin-bottom:14px;}
+.qty-box{display:flex;align-items:center;border:2px solid #111;border-radius:2px;overflow:hidden;}
+.qty-box button{width:40px;height:48px;background:#f5f5f5;font-size:20px;color:#333;transition:all .2s;}
+.qty-box button:hover{background:#e00;color:#fff;}
+.qty-box span{width:50px;text-align:center;font-size:16px;font-weight:700;border-left:2px solid #111;border-right:2px solid #111;padding:0 8px;line-height:48px;}
+.add-cart-btn{flex:1;background:#e00;color:#fff;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.add-cart-btn:hover{background:#b80000;transform:translateY(-2px);box-shadow:0 6px 20px rgba(220,0,0,.3);}
+.buy-now-btn{width:100%;background:#111;color:#fff;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
+.buy-now-btn:hover{background:#333;}
+/* Trust badges */
+.trust-badges{display:flex;gap:20px;padding:14px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin:16px 0;}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#666;}
+.trust-icon{font-size:16px;}
+/* Tabs */
+.prod-tabs{margin-top:48px;}
+.tab-btns{display:flex;border-bottom:2px solid #e8e8e8;margin-bottom:24px;}
+.tab-btn{padding:12px 20px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#999;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;cursor:pointer;}
+.tab-btn.active{color:#e00;border-bottom-color:#e00;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.prod-desc{font-size:14px;color:#555;line-height:1.9;}
+.size-guide-table{width:100%;border-collapse:collapse;font-size:13px;}
+.size-guide-table th{background:#111;color:#fff;padding:10px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;letter-spacing:.1em;}
+.size-guide-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;}
+.size-guide-table tr:hover td{background:#fafafa;}
+/* Related */
+.related-sec{max-width:1200px;margin:0 auto;padding:0 32px 80px;}
+.related-sec h2{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;}
+.related-sec h2 span{color:#e00;}
+/* Not found */
+.not-found{text-align:center;padding:120px 20px;}
+.not-found h2{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+@media(max-width:900px){.prod-layout{grid-template-columns:1fr;gap:32px;}.prod-name{font-size:36px;}}
+@media(max-width:600px){.prod-layout{padding:24px 16px 60px;}.related-sec{padding:0 16px 60px;}.qty-add-row{flex-direction:column;align-items:stretch;}.add-cart-btn{width:100%;}.prod-name{font-size:30px;}}
+</style>
+
+<main id="main-content">
+  <div style="max-width:1200px;margin:0 auto;padding:16px 32px 0;">
+    <div class="gx-breadcrumb" id="breadcrumb"></div>
+  </div>
+  <div class="prod-layout" id="prod-layout"></div>
+  <div class="prod-tabs" style="max-width:1200px;margin:0 auto;padding:0 32px;" id="prod-tabs"></div>
+  <div class="related-sec" id="related-sec"></div>
+</main>
+
+<script>
+GentXUI.init('product');
+
+(async () => {
+const params = new URLSearchParams(location.search);
+const pid = params.get('id');
+const product = await GentXDB.getProduct(pid);
+
+if (!product || !product.active) {
+  document.getElementById('prod-layout').innerHTML = `
+    <div class="not-found" style="grid-column:1/-1">
+      <div style="font-size:64px;margin-bottom:20px">😕</div>
+      <h2>Product Not Found</h2>
+      <p style="color:#888;margin-bottom:24px">This product doesn't exist or has been removed.</p>
+      <a href="shop.html" class="gx-btn primary">← Back to Shop</a>
+    </div>`;
+} else {
+  // Update page title
+  document.title = product.name + ' — GENTX';
+
+  // Breadcrumb
+  const cat = (await GentXDB.getCategories()).find(c => c.slug === product.category);
+  document.getElementById('breadcrumb').innerHTML = `
+    <a href="index.html">Home</a> / <a href="${product.category}.html">${cat?.name || product.category}</a> / ${product.name}
+  `;
+
+  let selectedSize  = product.sizes?.[0] || 'M';
+  let selectedColor = product.colors?.[0] || 'Black';
+  let qty = 1;
+
+  const saveP = product.oldPrice ? Math.round((1 - product.price/product.oldPrice)*100) : 0;
+  const colorMap = {'Black':'#1a1a1a','White':'#f5f5f5','Red':'#e00000','Navy':'#1a2f5e','Grey':'#888','Olive':'#6b6b3a','Blue':'#3b82f6','Pink':'#ec4899','Brown':'#92400e','Tan':'#d4a574','Indigo':'#3730a3','Natural':'#d4c5a9','Charcoal':'#374151','Green':'#166534','Silver':'#9ca3af'};
+
+  function renderSizes() {
+    return product.sizes?.map(s => `
+      <button class="size-btn ${s===selectedSize?'active':''}" onclick="selectSize('${s}')">${s}</button>
+    `).join('') || '<span style="color:#bbb;font-size:13px">One size</span>';
+  }
+  function renderColors() {
+    return product.colors?.map(c => {
+      const bg = colorMap[c] || '#ccc';
+      return `<button class="color-btn ${c===selectedColor?'active':''}" style="background:${bg}" title="${c}" onclick="selectColor('${c}')"></button>`;
+    }).join('') || '';
+  }
+
+  // Build gallery: main image + up to 5 gallery images
+  const allImages = [];
+  if (product.image)   allImages.push(product.image);
+  if (product.gallery) allImages.push(...product.gallery);
+  const hasImages = allImages.length > 0;
+
+  function imgSlot(src, idx) {
+    if (src) return `<img src="${src}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;">`;
+    return `<span style="font-size:${idx===0?'140':'36'}px">${product.emoji}</span>`;
+  }
+
+  document.getElementById('prod-layout').innerHTML = `
+    <!-- LEFT: Images -->
+    <div class="prod-img-col">
+      <div class="prod-img-main" id="main-img" style="background:${hasImages?'#000':'#f5f5f5'}">
+        ${imgSlot(allImages[0], 0)}
+      </div>
+      <div class="prod-img-thumbs" id="img-thumbs">
+        ${(hasImages ? allImages : [null,null,null]).slice(0,5).map((src,idx) => `
+          <div class="prod-thumb ${idx===0?'active':''}" onclick="setThumb(this,${idx},'${src||''}')">
+            ${src ? `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:1px;">` : `<span style="font-size:24px">${product.emoji}</span>`}
+          </div>`).join('')}
+      </div>
+    </div>
+    <!-- RIGHT: Info -->
+    <div class="prod-info-col">
+      <div class="prod-brand">GENTX — ${cat?.name || product.category}</div>
+      <h1 class="prod-name">${product.name}</h1>
+      <div class="prod-rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-count">(128 reviews)</span>
+      </div>
+      <div class="prod-price-row">
+        <div class="prod-price">PKR ${product.price.toLocaleString()}</div>
+        ${product.oldPrice ? `<div class="prod-old">PKR ${product.oldPrice.toLocaleString()}</div>` : ''}
+        ${saveP ? `<div class="prod-save">SAVE ${saveP}%</div>` : ''}
+      </div>
+      <div class="prod-stock ${product.stock > 10 ? 'instock' : 'low'}">
+        ${product.stock > 10 ? `✓ In Stock (${product.stock} available)` : `⚡ Only ${product.stock} left!`}
+      </div>
+      <hr class="prod-divider">
+      <div id="size-section">
+        <div class="option-label">Size: <strong id="sz-label">${selectedSize}</strong></div>
+        <div class="size-btns" id="size-btns">${renderSizes()}</div>
+      </div>
+      ${product.colors?.length ? `
+      <div id="color-section">
+        <div class="option-label">Color: <strong id="col-label">${selectedColor}</strong></div>
+        <div class="color-btns" id="color-btns">${renderColors()}</div>
+      </div>` : ''}
+      <div class="qty-add-row">
+        <div class="qty-box">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="qty-display">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="add-cart-btn" onclick="doAddToCart()">
+          🛒 Add to Cart
+        </button>
+      </div>
+      <button class="buy-now-btn" onclick="doAddToCart();setTimeout(()=>window.location='cart.html',300)">
+        ⚡ Buy Now
+      </button>
+      <div class="trust-badges">
+        <div class="trust-item"><span class="trust-icon">🔒</span> Secure Checkout</div>
+        <div class="trust-item"><span class="trust-icon">🚚</span> Free Delivery</div>
+        <div class="trust-item"><span class="trust-icon">↩️</span> 7-Day Returns</div>
+      </div>
+      ${product.desc ? `<p class="prod-desc" style="font-size:14px;color:#666;line-height:1.8;margin-top:8px">${product.desc}</p>` : ''}
+    </div>
+  `;
+
+  // Tabs
+  document.getElementById('prod-tabs').innerHTML = `
+    <div class="tab-btns">
+      <button class="tab-btn active" onclick="showTab('desc',this)">Description</button>
+      <button class="tab-btn" onclick="showTab('size',this)">Size Guide</button>
+      <button class="tab-btn" onclick="showTab('ship',this)">Shipping & Returns</button>
+    </div>
+    <div class="tab-panel active" id="tab-desc">
+      <p class="prod-desc">${product.desc || 'Premium quality product from GENTX. Designed for comfort and style.'}</p>
+      ${product.sizes?.length ? `<p class="prod-desc" style="margin-top:12px"><strong>Available Sizes:</strong> ${product.sizes.join(', ')}</p>` : ''}
+      ${product.colors?.length ? `<p class="prod-desc" style="margin-top:4px"><strong>Available Colors:</strong> ${product.colors.join(', ')}</p>` : ''}
+    </div>
+    <div class="tab-panel" id="tab-size">
+      <table class="size-guide-table">
+        <thead><tr><th>Size</th><th>Chest (in)</th><th>Waist (in)</th><th>Length (in)</th></tr></thead>
+        <tbody>
+          <tr><td>S</td><td>36–38</td><td>28–30</td><td>27</td></tr>
+          <tr><td>M</td><td>38–40</td><td>30–32</td><td>28</td></tr>
+          <tr><td>L</td><td>40–42</td><td>32–34</td><td>29</td></tr>
+          <tr><td>XL</td><td>42–44</td><td>34–36</td><td>30</td></tr>
+          <tr><td>XXL</td><td>44–46</td><td>36–38</td><td>31</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tab-panel" id="tab-ship">
+      <div class="prod-desc">
+        <p><strong>Delivery:</strong> Standard 3–5 working days. Express 1–2 days available at checkout.</p>
+        <p style="margin-top:10px"><strong>Free Shipping:</strong> On orders over PKR 3,000.</p>
+        <p style="margin-top:10px"><strong>Returns:</strong> Easy 7-day return policy. Items must be unworn with original tags.</p>
+        <p style="margin-top:10px"><strong>Exchange:</strong> Exchange within 14 days for a different size or color.</p>
+      </div>
+    </div>
+  `;
+
+  // Related products
+  const related = (await GentXDB.getByCategory(product.category)).filter(p => p.id !== product.id).slice(0,4);
+  if (related.length) {
+    document.getElementById('related-sec').innerHTML = `
+      <h2>You Might Also <span>Like</span></h2>
+      <div class="gx-grid cols-4" id="related-grid"></div>
+    `;
+    GentXUI.renderProductGrid(related, 'related-grid');
+  }
+
+  // JS for interactions
+  window.selectSize = (s) => {
+    selectedSize = s;
+    document.getElementById('sz-label').textContent = s;
+    document.getElementById('size-btns').innerHTML = renderSizes();
+  };
+  window.selectColor = (c) => {
+    selectedColor = c;
+    document.getElementById('col-label').textContent = c;
+    document.getElementById('color-btns').innerHTML = renderColors();
+  };
+  window.changeQty = (d) => {
+    qty = Math.max(1, Math.min(qty + d, product.stock));
+    document.getElementById('qty-display').textContent = qty;
+  };
+  window.doAddToCart = () => {
+    for (let i = 0; i < qty; i++) GentXUI.addToCart(product.id, selectedSize, selectedColor, product.name, product.price, product.emoji || '👕');
+  };
+  window.setThumb = (el, idx, src) => {
+    document.querySelectorAll('.prod-thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const mainImg = document.getElementById('main-img');
+    if (src) {
+      mainImg.innerHTML = `<img src="${src}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;transition:opacity .3s;">`;
+      mainImg.style.background = '#000';
+    } else {
+      mainImg.innerHTML = `<span style="font-size:140px">${product.emoji}</span>`;
+      mainImg.style.background = '#f5f5f5';
+    }
+  };
+  window.showTab = (name, btn) => {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name)?.classList.add('active');
+    btn.classList.add('active');
+  };
+}
+})();
+</script>
+<!-- Footer -->
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div>
+      <div class="gx-flogo">GENT<span>X</span></div>
+      <p class="gx-ftxt">Modern fashion for confident men.</p>
+      <div class="gx-fsocials"><a class="gx-fsoc" href="#">FB</a><a class="gx-fsoc" href="#">IG</a><a class="gx-fsoc" href="#">TW</a></div>
+    </div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p><div class="gx-fleg"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms</a></div></div>
+</footer>
+</body>
+</html>

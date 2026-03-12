@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.checkout-main{max-width:1100px;margin:0 auto;padding:44px 32px 80px;display:grid;grid-template-columns:1fr 360px;gap:36px;align-items:start;}
+.section-card{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:3px;padding:28px;margin-bottom:20px;}
+.section-card h3{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #e00;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;border:1px solid #e0e0e0;border-radius:2px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;background:#fff;}
+.fg input:focus,.fg select:focus{border-color:#e00;}
+.pay-methods{display:flex;flex-direction:column;gap:10px;}
+.pay-opt{display:flex;align-items:center;gap:12px;padding:14px;border:2px solid #e0e0e0;border-radius:2px;cursor:pointer;transition:border-color .2s;}
+.pay-opt.active,.pay-opt:hover{border-color:#e00;}
+.pay-opt input{accent-color:#e00;width:16px;height:16px;}
+.pay-opt-info .pay-name{font-size:14px;font-weight:600;}
+.pay-opt-info .pay-sub{font-size:12px;color:#aaa;}
+.pay-icon{font-size:24px;}
+/* order summary */
+.co-summary{background:#111;border-radius:3px;padding:24px;position:sticky;top:130px;color:#e0e0e0;}
+.co-sum-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid #2a2a2a;}
+.co-item{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
+.co-thumb{width:46px;height:58px;background:#2a2a2a;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.co-item-name{font-size:12px;font-weight:600;color:#ddd;line-height:1.3;}
+.co-item-meta{font-size:11px;color:#666;}
+.co-item-price{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:#e00;margin-left:auto;flex-shrink:0;}
+.co-divider{border:none;border-top:1px solid #2a2a2a;margin:14px 0;}
+.co-line{display:flex;justify-content:space-between;font-size:13px;color:#888;margin-bottom:8px;}
+.co-line span:last-child{font-weight:600;color:#ddd;}
+.co-total{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+.co-total span:first-child{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#aaa;}
+.co-total span:last-child{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:#e00;}
+.place-btn{display:block;width:100%;background:#e00;color:#fff;padding:16px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;text-align:center;border-radius:2px;transition:all .3s;margin-top:20px;}
+.place-btn:hover{background:#b80000;transform:translateY(-1px);}
+/* Success */
+.success-screen{display:none;text-align:center;padding:80px 20px;max-width:600px;margin:0 auto;}
+.success-screen.show{display:block;}
+.success-icon{font-size:72px;margin-bottom:20px;animation:pop .5s ease;}
+@keyframes pop{0%{transform:scale(0);}80%{transform:scale(1.2);}100%{transform:scale(1);}}
+.success-screen h2{font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px;}
+.success-screen h2 span{color:#e00;}
+.success-screen p{color:#666;font-size:14px;line-height:1.8;margin-bottom:24px;}
+.success-id{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#e00;background:rgba(220,0,0,.08);border:1px solid rgba(220,0,0,.2);padding:10px 24px;display:inline-block;border-radius:2px;margin-bottom:24px;}
+@media(max-width:900px){.checkout-main{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+@media(max-width:600px){.checkout-main{padding:24px 16px 60px;}}
+</style>
+
+<div class="gx-page-header">
+  <h1><span>Checkout</span></h1>
+  <div class="gx-breadcrumb"><a href="index.html">Home</a> / <a href="cart.html">Cart</a> / Checkout</div>
+</div>
+
+<main>
+  <!-- SUCCESS STATE -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✅</div>
+    <h2>Order <span>Placed!</span></h2>
+    <p>Thank you for your order! You'll receive a confirmation shortly. We'll ship your items within 1–2 business days.</p>
+    <div class="success-id" id="success-order-id">Order #—</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="shop.html" class="gx-btn primary">Continue Shopping →</a>
+      <a href="index.html" class="gx-btn outline">Back to Home</a>
+    </div>
+  </div>
+
+  <!-- CHECKOUT FORM -->
+  <div id="checkout-form">
+  <div class="checkout-main">
+    <div>
+      <!-- Shipping -->
+      <div class="section-card">
+        <h3>📦 Shipping Information</h3>
+        <div class="form-row">
+          <div class="fg"><label>First Name *</label><input id="c-fname" placeholder="Ahmed"></div>
+          <div class="fg"><label>Last Name *</label><input id="c-lname" placeholder="Khan"></div>
+        </div>
+        <div class="fg"><label>Email *</label><input id="c-email" type="email" placeholder="ahmed@email.com"></div>
+        <div class="fg"><label>Phone *</label><input id="c-phone" type="tel" placeholder="+92 300 0000000"></div>
+        <div class="fg"><label>Address *</label><input id="c-addr" placeholder="House #, Street, Area"></div>
+        <div class="form-row">
+          <div class="fg"><label>City *</label><input id="c-city" placeholder="Karachi"></div>
+          <div class="fg"><label>Province</label>
+            <select id="c-prov">
+              <option>Sindh</option><option>Punjab</option><option>KPK</option><option>Balochistan</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Special Instructions</label><textarea id="c-notes" rows="2" placeholder="Anything we should know?"></textarea></div>
+      </div>
+      <!-- Payment -->
+      <div class="section-card">
+        <h3>💳 Payment Method</h3>
+        <div class="pay-methods">
+          <div class="pay-opt active" onclick="selectPay(this,'cod')">
+            <input type="radio" name="pay" checked>
+            <div class="pay-icon">💵</div>
+            <div class="pay-opt-info"><div class="pay-name">Cash on Delivery</div><div class="pay-sub">Pay when you receive your order</div></div>
+          </div>
+          <div class="pay-opt" onclick="selectPay(this,'easypaisa')">
+            <input type="radio" name="pay">
+            <div class="pay-icon">📱</div>
+            <div class="pay-opt-info"><div class="pay-name">EasyPaisa / JazzCash</div><div class="pay-sub">Mobile wallet payment</div></div>
+          </div>
+          <div class="pay-opt" onclick="selectPay(this,'bank')">
+            <input type="radio" name="pay">
+            <div class="pay-icon">🏦</div>
+            <div class="pay-opt-info"><div class="pay-name">Bank Transfer</div><div class="pay-sub">Direct bank transfer</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="co-summary">
+      <div class="co-sum-title">Your Order</div>
+      <div id="co-items"></div>
+      <hr class="co-divider">
+      <div class="co-line"><span>Subtotal</span><span id="co-sub">PKR 0</span></div>
+      <div class="co-line"><span>Shipping</span><span style="color:#22c55e">FREE</span></div>
+      <div class="co-total"><span>Total</span><span id="co-total">PKR 0</span></div>
+      <button class="place-btn" id="co-btn" onclick="placeOrder()">Place Order →</button>
+    </div>
+  </div>
+  </div>
+</main>
+
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div><div class="gx-flogo">GENT<span>X</span></div><p class="gx-ftxt">Modern fashion for confident men.</p></div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p></div>
+</footer>
+
+<script>
+GentXUI.init('checkout');
+
+// Redirect if cart empty
+if (!GentXDB.getCart().length) window.location.href = 'cart.html';
+
+let selectedPayment = 'cod';
+
+function selectPay(el, method) {
+  document.querySelectorAll('.pay-opt').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  selectedPayment = method;
+}
+
+function renderSummary() {
+  const cart  = GentXDB.getCart();
+  const total = GentXDB.getCartTotal();
+  const el = document.getElementById('co-items');
+  if (el) {
+    el.innerHTML = cart.map(i => `
+      <div class="co-item">
+        <div class="co-thumb">${i.image ? `<img src="${i.image}" style="width:100%;height:100%;object-fit:cover;border-radius:2px;">` : i.emoji || '👕'}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${i.name}</div>
+          <div style="font-size:11px;color:#aaa;">${i.size} · ${i.color} · qty: ${i.qty}</div>
+        </div>
+        <div style="font-weight:700;font-family:'Barlow Condensed',sans-serif;white-space:nowrap;margin-left:8px;">PKR ${(i.price*i.qty).toLocaleString()}</div>
+      </div>
+    `).join('');
+  }
+  const sub = document.getElementById('co-sub');
+  if (sub) sub.textContent = 'PKR ' + total.toLocaleString();
+  const tot = document.getElementById('co-total');
+  if (tot) tot.textContent = 'PKR ' + total.toLocaleString();
+}
+
+async function placeOrder() {
+  const fname    = (document.getElementById('c-fname')?.value || '').trim();
+  const lname    = (document.getElementById('c-lname')?.value || '').trim();
+  const email    = (document.getElementById('c-email')?.value || '').trim();
+  const phone    = (document.getElementById('c-phone')?.value || '').trim();
+  const address  = (document.getElementById('c-addr')?.value  || '').trim();
+  const city     = (document.getElementById('c-city')?.value  || '').trim();
+  const notes    = (document.getElementById('c-notes')?.value || '').trim();
+  const province = document.getElementById('c-prov')?.value || '';
+
+  if (!fname)              { GentXUI.toast('⚠ First name is required'); return; }
+  if (!lname)              { GentXUI.toast('⚠ Last name is required'); return; }
+  if (!email)              { GentXUI.toast('⚠ Email is required'); return; }
+  if (!email.includes('@')){ GentXUI.toast('⚠ Enter a valid email'); return; }
+  if (!phone)              { GentXUI.toast('⚠ Phone number is required'); return; }
+  if (!address)            { GentXUI.toast('⚠ Address is required'); return; }
+  if (!city)               { GentXUI.toast('⚠ City is required'); return; }
+
+  const cart  = GentXDB.getCart();
+  const total = GentXDB.getCartTotal();
+
+  if (!cart || !cart.length) { GentXUI.toast('⚠ Your cart is empty'); return; }
+
+  const orderData = {
+    customer: fname + ' ' + lname,
+    email,
+    phone,
+    address: address + ', ' + city + (province ? ', ' + province : ''),
+    items: cart,
+    total,
+    payment: selectedPayment,
+    notes: notes || '',
+  };
+
+  const btn = document.getElementById('co-btn');
+  try {
+    if (btn) { btn.disabled = true; btn.textContent = 'Placing Order...'; }
+
+    const orderId = await GentXDB.placeOrder(orderData);
+
+    // Show success screen, hide form
+    const form = document.getElementById('checkout-form');
+    const success = document.getElementById('success-screen');
+    const orderIdEl = document.getElementById('success-order-id');
+
+    if (form) form.style.display = 'none';
+    if (success) { success.style.display = 'block'; success.classList.add('show'); }
+    if (orderIdEl) orderIdEl.textContent = 'Order ' + orderId;
+
+    GentXUI.refreshCart();
+
+  } catch(e) {
+    console.error('Order error:', e);
+    GentXUI.toast('⚠ Order failed: ' + e.message);
+    if (btn) { btn.disabled = false; btn.textContent = 'PLACE ORDER →'; }
+  }
+}
+
+renderSummary();
+</script>
+</body>
+</html>

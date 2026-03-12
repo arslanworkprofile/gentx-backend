@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.contact-wrap{max-width:1200px;margin:0 auto;padding:56px 32px 80px;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start;}
+.contact-info h2{font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;line-height:.95;margin-bottom:14px;}
+.contact-info h2 span{color:#e00;}
+.contact-info p{font-size:14px;color:#666;line-height:1.9;margin-bottom:32px;}
+.info-cards{display:flex;flex-direction:column;gap:14px;margin-bottom:32px;}
+.info-card{display:flex;gap:16px;padding:18px;background:#f8f8f8;border-left:4px solid #e00;border-radius:2px;}
+.info-icon{font-size:22px;flex-shrink:0;}
+.info-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#e00;margin-bottom:3px;}
+.info-val{font-size:13px;color:#555;line-height:1.6;}
+.social-row{display:flex;gap:10px;}
+.soc{padding:9px 18px;background:#111;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:background .2s;}
+.soc:hover{background:#e00;}
+.contact-form-wrap{background:#f8f8f8;border:2px solid #111;padding:36px;border-radius:3px;}
+.form-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.form-sub{font-size:13px;color:#888;margin-bottom:26px;}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:5px;}
+.fg input,.fg select,.fg textarea{width:100%;border:2px solid #e8e8e8;border-radius:2px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;background:#fff;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#e00;}
+.fg textarea{resize:vertical;min-height:120px;}
+.send-btn{display:block;width:100%;background:#e00;color:#fff;padding:15px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;margin-top:6px;cursor:pointer;border:none;}
+.send-btn:hover{background:#b80000;transform:translateY(-1px);box-shadow:0 6px 20px rgba(220,0,0,.3);}
+.send-btn:disabled{background:#aaa;transform:none;box-shadow:none;cursor:not-allowed;}
+.faq-sec{background:#f5f5f5;padding:72px 32px;}
+.faq-inner{max-width:880px;margin:0 auto;}
+.faq-item{border-bottom:1px solid #e0e0e0;overflow:hidden;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 0;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;}
+.faq-q:hover{color:#e00;}
+.faq-icon{font-size:20px;color:#e00;transition:transform .25s;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-a p{font-size:14px;color:#666;line-height:1.9;padding-bottom:16px;}
+.faq-item.open .faq-a{max-height:220px;}
+@media(max-width:900px){.contact-wrap{grid-template-columns:1fr;gap:40px;}}
+@media(max-width:600px){.contact-wrap{padding:36px 16px 60px;}.faq-sec{padding:56px 16px;}.form-row2{grid-template-columns:1fr;}}
+</style>
+
+<div class="gx-page-header">
+  <h1>Contact <span>Us</span></h1>
+  <div class="gx-breadcrumb"><a href="index.html">Home</a> / Contact</div>
+</div>
+
+<main>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <h2>Get in<br><span>Touch</span></h2>
+      <p>Questions about your order, sizing, or anything else? Our team is ready to help. Reach out through any channel below.</p>
+      <div class="info-cards">
+        <div class="info-card"><div class="info-icon">📍</div><div><div class="info-label">Address</div><div class="info-val">Karachi, Pakistan<br>GENTX HQ, Block 7</div></div></div>
+        <div class="info-card"><div class="info-icon">📞</div><div><div class="info-label">Phone / WhatsApp</div><div class="info-val">+92 300 0000000<br>Mon–Sat, 9AM–9PM</div></div></div>
+        <div class="info-card"><div class="info-icon">✉️</div><div><div class="info-label">Email</div><div class="info-val">arslan.workprofile@gmail.com<br>Reply within 24 hours</div></div></div>
+      </div>
+      <div class="social-row">
+        <a class="soc" href="#">Instagram</a>
+        <a class="soc" href="#">Facebook</a>
+        <a class="soc" href="#">TikTok</a>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap">
+      <div class="form-title">Send a Message</div>
+      <div class="form-sub">We'll get back to you within 24 hours.</div>
+      <div class="form-row2">
+        <div class="fg"><label>First Name</label><input id="cf-fname" placeholder="Ahmed"></div>
+        <div class="fg"><label>Last Name</label><input id="cf-lname" placeholder="Khan"></div>
+      </div>
+      <div class="fg"><label>Email *</label><input id="cf-email" type="email" placeholder="ahmed@email.com"></div>
+      <div class="fg"><label>Subject</label>
+        <select id="cf-subject">
+          <option>Order Inquiry</option><option>Return / Exchange</option>
+          <option>Sizing Question</option><option>Shipping Info</option><option>Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Message *</label><textarea id="cf-msg" placeholder="Write your message here..."></textarea></div>
+      <button class="send-btn" id="send-btn" onclick="sendMsg()">Send Message →</button>
+    </div>
+  </div>
+</main>
+
+<!-- FAQ -->
+<section class="faq-sec">
+  <div class="faq-inner">
+    <div class="gx-sec-hd"><div class="gx-eyebrow">Help</div><h2>Frequently Asked Questions</h2><div class="gx-divider"></div></div>
+    <div style="margin-top:36px">
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">How long does delivery take? <span class="faq-icon">+</span></div><div class="faq-a"><p>Standard delivery takes 3–5 working days across Pakistan. Express 1–2 day delivery is available at checkout for an additional charge.</p></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">What is your return policy? <span class="faq-icon">+</span></div><div class="faq-a"><p>We offer a 7-day hassle-free return policy. Items must be unworn, unwashed, with original packaging and tags attached.</p></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Do you offer Cash on Delivery? <span class="faq-icon">+</span></div><div class="faq-a"><p>Yes! Cash on Delivery is available nationwide across Pakistan. You pay when your order arrives at your doorstep.</p></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">How do I find my size? <span class="faq-icon">+</span></div><div class="faq-a"><p>Every product page includes a detailed size guide. If you're between sizes, we recommend sizing up for a comfortable fit.</p></div></div>
+      <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Can I track my order? <span class="faq-icon">+</span></div><div class="faq-a"><p>Yes! Once dispatched, you'll receive an SMS with your tracking number to follow your package in real-time.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div><div class="gx-flogo">GENT<span>X</span></div><p class="gx-ftxt">Modern fashion for confident men.</p><div class="gx-fsocials"><a class="gx-fsoc" href="#">FB</a><a class="gx-fsoc" href="#">IG</a><a class="gx-fsoc" href="#">TW</a></div></div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p><div class="gx-fleg"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div></div>
+</footer>
+
+<script>
+GentXUI.init('contact');
+
+// ── EmailJS Config ──────────────────────────────────────────
+// STEP 1: Go to https://www.emailjs.com and sign up (free)
+// STEP 2: Add Email Service → connect your Gmail → copy Service ID
+// STEP 3: Create Email Template → copy Template ID
+// STEP 4: Go to Account → copy Public Key
+// STEP 5: Paste all three below:
+
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';    // e.g. 'abc123XYZ'
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';    // e.g. 'service_xxxxxx'
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';   // e.g. 'template_xxxxxx'
+
+// ── EmailJS Template Variables (match these in your template) ──
+// {{from_name}}   → sender full name
+// {{from_email}}  → sender email
+// {{subject}}     → subject
+// {{message}}     → message body
+// {{to_email}}    → arslan.workprofile@gmail.com
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+async function sendMsg() {
+  const fname   = document.getElementById('cf-fname').value.trim();
+  const lname   = document.getElementById('cf-lname').value.trim();
+  const email   = document.getElementById('cf-email').value.trim();
+  const subject = document.getElementById('cf-subject').value;
+  const msg     = document.getElementById('cf-msg').value.trim();
+
+  if (!email || !email.includes('@')) { GentXUI.toast('⚠ Enter a valid email'); return; }
+  if (!msg) { GentXUI.toast('⚠ Please write a message'); return; }
+
+  // Check if EmailJS is configured
+  if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+    GentXUI.toast('⚠ EmailJS not configured yet — see setup steps');
+    return;
+  }
+
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      from_name:  (fname + ' ' + lname).trim() || 'Anonymous',
+      from_email: email,
+      subject:    subject,
+      message:    msg,
+      to_email:   'arslan.workprofile@gmail.com',
+    });
+
+    GentXUI.toast('✓ Message sent! We\'ll reply within 24 hours');
+    ['cf-fname','cf-lname','cf-email','cf-msg'].forEach(id => document.getElementById(id).value = '');
+    btn.textContent = '✓ Sent!';
+    setTimeout(() => { btn.disabled = false; btn.textContent = 'Send Message →'; }, 3000);
+
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    GentXUI.toast('⚠ Failed to send. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Send Message →';
+  }
+}
+</script>
+</body>
+</html>

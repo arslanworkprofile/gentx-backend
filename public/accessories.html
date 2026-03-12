@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessories — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.cat-hero{background:#111;padding:60px 32px;text-align:center;position:relative;overflow:hidden;}
+.cat-hero-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:300px;opacity:.04;user-select:none;}
+.cat-hero-content{position:relative;z-index:1;}
+.cat-hero-emoji{font-size:60px;margin-bottom:16px;}
+.cat-hero h1{font-family:'Barlow Condensed',sans-serif;font-size:64px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:10px;}
+.cat-hero h1 span{color:#e00;}
+.cat-hero p{color:rgba(255,255,255,.55);font-size:15px;max-width:480px;margin:0 auto 24px;}
+.cat-hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.cat-hero-count{display:inline-block;background:rgba(220,0,0,.2);border:1px solid rgba(220,0,0,.35);color:#e00;padding:6px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;}
+.sort-bar{max-width:1400px;margin:0 auto;padding:22px 32px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.sort-bar-pills{display:flex;gap:7px;flex-wrap:wrap;}
+.spill{padding:6px 14px;border:2px solid #e0e0e0;background:none;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;border-radius:2px;transition:all .2s;cursor:pointer;}
+.spill:hover,.spill.active{border-color:#e00;color:#e00;background:rgba(220,0,0,.04);}
+.sort-sel{border:1px solid #e0e0e0;padding:8px 12px;font-size:13px;font-family:inherit;outline:none;border-radius:2px;}
+.sort-sel:focus{border-color:#e00;}
+.prod-section{max-width:1400px;margin:0 auto;padding:24px 32px 80px;}
+.result-bar{font-size:13px;color:#999;margin-bottom:18px;}
+.result-bar strong{color:#111;}
+@media(max-width:600px){.cat-hero{padding:44px 16px;}.cat-hero h1{font-size:44px;}.prod-section,.sort-bar{padding-left:16px;padding-right:16px;}}
+</style>
+
+<section class="cat-hero">
+  <div class="cat-hero-bg">🧢</div>
+  <div class="cat-hero-content">
+    <div class="cat-hero-emoji">🧢</div>
+    <h1>Accessories</h1>
+    <p>Caps, belts, watches & more</p>
+    <div class="cat-hero-actions">
+      <span class="cat-hero-count" id="hero-count">Loading...</span>
+      <a href="shop.html" class="gx-btn outline" style="color:#fff;border-color:rgba(255,255,255,.3);">All Products</a>
+    </div>
+  </div>
+</section>
+
+<div class="sort-bar">
+  <div class="sort-bar-pills" id="sub-pills"></div>
+  <select class="sort-sel" id="cat-sort" onchange="renderCat()">
+    <option value="default">Sort: Default</option>
+    <option value="low">Price: Low → High</option>
+    <option value="high">Price: High → Low</option>
+    <option value="newest">Newest First</option>
+  </select>
+</div>
+
+<main>
+<div class="prod-section">
+  <div class="result-bar">Showing <strong id="cat-count">0</strong> products in <strong>Accessories</strong></div>
+  <div class="gx-grid cols-4" id="cat-grid"></div>
+</div>
+</main>
+
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div><div class="gx-flogo">GENT<span>X</span></div><p class="gx-ftxt">Modern fashion for confident men.</p><div class="gx-fsocials"><a class="gx-fsoc" href="#">FB</a><a class="gx-fsoc" href="#">IG</a><a class="gx-fsoc" href="#">TW</a></div></div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p><div class="gx-fleg"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></div></div>
+</footer>
+
+<script>
+GentXUI.init('accessories');
+
+const SLUG = 'accessories';
+
+// Apply category hero image
+(async function() {
+  const cats = await GentXDB.getCategories();
+  const cat = cats.find(c => c.slug === SLUG);
+  if (cat && cat.image) {
+    const hero = document.querySelector('.cat-hero');
+    if (hero) {
+      hero.style.backgroundImage = 'url(' + cat.image + ')';
+      hero.style.backgroundSize = 'cover';
+      hero.style.backgroundPosition = 'center';
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:0;';
+      hero.style.position = 'relative';
+      hero.insertBefore(overlay, hero.firstChild);
+    }
+    const emojiEl = document.querySelector('.cat-hero-emoji');
+    if (emojiEl) {
+      emojiEl.style.cssText = 'width:80px;height:80px;border-radius:50%;overflow:hidden;margin:0 auto 16px;border:3px solid rgba(255,255,255,.3);';
+      emojiEl.innerHTML = '<img src="' + cat.image + '" style="width:100%;height:100%;object-fit:cover;">';
+    }
+  }
+  if (cat && (cat.description || cat.desc)) {
+    const pEl = document.querySelector('.cat-hero p');
+    if (pEl) pEl.textContent = cat.description || cat.desc;
+  }
+  if (cat) {
+    const h1 = document.querySelector('.cat-hero h1');
+    if (h1) h1.textContent = cat.name;
+  }
+})();
+
+(async () => {
+  let activeFilter = 'all';
+  let allProds = await GentXDB.getByCategory(SLUG);
+
+  // Sub-filter pills
+  const badges = [...new Set(allProds.map(p=>p.badge).filter(Boolean))];
+  const pillsEl = document.getElementById('sub-pills');
+  pillsEl.innerHTML = '<button class="spill active" onclick="setFilter(\'all\',this)">All</button>' +
+    badges.map(b=>'<button class="spill" onclick="setFilter(\''+b+'\',this)">'+b+'</button>').join('') +
+    '<button class="spill" onclick="setFilter(\'featured\',this)">Featured</button>';
+
+  function setFilter(f, btn) {
+    activeFilter = f;
+    document.querySelectorAll('.spill').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    renderCat();
+  }
+  window.setFilter = setFilter;
+
+  function renderCat() {
+    let prods = [...allProds];
+    if (activeFilter !== 'all' && activeFilter !== 'featured') prods = prods.filter(p=>p.badge===activeFilter);
+    if (activeFilter === 'featured') prods = prods.filter(p=>p.featured);
+    const sort = document.getElementById('cat-sort').value;
+    if (sort==='low')       prods.sort((a,b)=>a.price-b.price);
+    else if(sort==='high')  prods.sort((a,b)=>b.price-a.price);
+    else if(sort==='newest') prods.sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
+    const count = prods.length;
+    document.getElementById('cat-count').textContent = count;
+    document.getElementById('hero-count').textContent = count + ' Products';
+    GentXUI.renderProductGrid(prods, 'cat-grid');
+  }
+
+  renderCat();
+})();
+</script></body>
+</html>

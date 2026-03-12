@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.acc-wrap{max-width:1000px;margin:0 auto;padding:48px 24px 80px;display:grid;grid-template-columns:240px 1fr;gap:32px;align-items:start;}
+.acc-sidebar{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:3px;padding:24px;position:sticky;top:130px;}
+.acc-avatar{width:72px;height:72px;background:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;}
+.acc-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;text-align:center;letter-spacing:.06em;}
+.acc-email{font-size:12px;color:#888;text-align:center;margin-bottom:20px;}
+.acc-nav{display:flex;flex-direction:column;gap:2px;}
+.acc-nav-item{padding:10px 14px;border-radius:2px;font-size:14px;font-weight:600;color:#555;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.acc-nav-item:hover{background:#ffe5e5;color:#e00;}
+.acc-nav-item.active{background:rgba(220,0,0,.1);color:#e00;}
+.acc-logout{margin-top:16px;width:100%;padding:10px;background:none;border:2px solid #e0e0e0;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;cursor:pointer;transition:all .2s;}
+.acc-logout:hover{border-color:#e00;color:#e00;}
+/* panels */
+.acc-panel{display:none;}.acc-panel.active{display:block;}
+.acc-panel-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #e00;}
+/* orders */
+.order-card{border:1px solid #e8e8e8;border-radius:3px;margin-bottom:16px;overflow:hidden;transition:border-color .2s;}
+.order-card:hover{border-color:#e00;}
+.order-card-head{padding:14px 18px;background:#f8f8f8;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;cursor:pointer;}
+.order-card-id{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.08em;color:#e00;}
+.order-card-date{font-size:12px;color:#888;}
+.order-card-total{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;}
+.o-status{display:inline-block;padding:3px 10px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.os-pending{background:rgba(234,179,8,.15);color:#ca8a04;}
+.os-processing{background:rgba(59,130,246,.15);color:#3b82f6;}
+.os-shipped{background:rgba(249,115,22,.15);color:#f97316;}
+.os-delivered{background:rgba(34,197,94,.15);color:#22c55e;}
+.os-cancelled{background:rgba(220,0,0,.15);color:#e00;}
+.order-card-body{padding:16px 18px;border-top:1px solid #e8e8e8;display:none;}
+.order-card-body.open{display:block;}
+.order-item-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0f0f0;}
+.order-item-row:last-child{border-bottom:none;}
+.order-item-emoji{font-size:28px;flex-shrink:0;}
+.order-item-name{font-size:13px;font-weight:600;flex:1;}
+.order-item-meta{font-size:11px;color:#888;margin-top:2px;}
+.order-item-price{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#e00;}
+.order-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid #e8e8e8;}
+.order-detail-block label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#aaa;display:block;margin-bottom:3px;}
+.order-detail-block span{font-size:13px;font-weight:600;color:#333;}
+.empty-state{text-align:center;padding:60px 20px;color:#ccc;}
+.empty-state .es-icon{font-size:60px;margin-bottom:16px;}
+.empty-state h3{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#bbb;margin-bottom:8px;}
+.empty-state p{font-size:13px;color:#ccc;margin-bottom:20px;}
+/* profile form */
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:5px;}
+.fg input{width:100%;border:2px solid #e0e0e0;border-radius:2px;padding:12px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
+.fg input:focus{border-color:#e00;}
+.save-btn{background:#e00;color:#fff;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all .2s;}
+.save-btn:hover{background:#b80000;}
+@media(max-width:768px){
+  .acc-wrap{grid-template-columns:1fr;}
+  .acc-sidebar{position:static;}
+  .order-details-grid{grid-template-columns:1fr;}
+}
+</style>
+
+<div class="gx-page-header">
+  <h1>My <span>Account</span></h1>
+  <div class="gx-breadcrumb"><a href="index.html">Home</a> / My Account</div>
+</div>
+
+<div class="acc-wrap">
+  <!-- Sidebar -->
+  <aside class="acc-sidebar">
+    <div class="acc-avatar">👤</div>
+    <div class="acc-name" id="acc-name">—</div>
+    <div class="acc-email" id="acc-email">—</div>
+    <nav class="acc-nav">
+      <div class="acc-nav-item active" onclick="showAccPanel('orders')">📦 My Orders</div>
+      <div class="acc-nav-item" onclick="showAccPanel('profile')">⚙️ Profile Settings</div>
+    </nav>
+    <button class="acc-logout" onclick="accLogout()">🚪 Logout</button>
+  </aside>
+
+  <!-- Content -->
+  <div>
+    <!-- ORDERS -->
+    <div class="acc-panel active" id="acc-panel-orders">
+      <div class="acc-panel-title">📦 My Orders</div>
+      <div id="acc-orders-list"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="acc-panel" id="acc-panel-profile">
+      <div class="acc-panel-title">⚙️ Profile Settings</div>
+      <div style="max-width:440px;">
+        <div class="fg"><label>Full Name</label><input type="text" id="p-name" placeholder="Your name"></div>
+        <div class="fg"><label>Email</label><input type="email" id="p-email" placeholder="Your email" disabled style="background:#f8f8f8;color:#aaa;"></div>
+        <div class="fg"><label>New Password</label><input type="password" id="p-pass" placeholder="Leave blank to keep current"></div>
+        <div class="fg"><label>Confirm Password</label><input type="password" id="p-pass2" placeholder="Repeat new password"></div>
+        <button class="save-btn" onclick="saveProfile()">Save Changes</button>
+        <div id="p-msg" style="margin-top:12px;font-size:13px;font-weight:600;display:none;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div><div class="gx-flogo">GENT<span>X</span></div><p class="gx-ftxt">Modern fashion for confident men.</p></div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p></div>
+</footer>
+
+<script>
+GentXUI.init('account');
+
+// Auth guard
+const _user = GentXDB.getLoggedInUser();
+if (!_user) { window.location.href = 'login.html?redirect=account.html'; }
+else {
+  document.getElementById('acc-name').textContent = _user.name;
+  document.getElementById('acc-email').textContent = _user.email;
+  document.getElementById('p-name').value  = _user.name;
+  document.getElementById('p-email').value = _user.email;
+  renderOrders();
+}
+
+function showAccPanel(name) {
+  document.querySelectorAll('.acc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.acc-nav-item').forEach((n,i) => n.classList.toggle('active', (i===0&&name==='orders')||(i===1&&name==='profile')));
+  document.getElementById('acc-panel-' + name).classList.add('active');
+}
+
+async function renderOrders() {
+  const container = document.getElementById('acc-orders-list');
+  container.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">Loading orders...</div>';
+  const orders = await GentXDB.getMyOrders();
+  if (!orders.length) {
+    container.innerHTML = `<div class="empty-state">
+      <div class="es-icon">📦</div>
+      <h3>No Orders Yet</h3>
+      <p>You haven't placed any orders. Start shopping!</p>
+      <a href="shop.html" style="display:inline-block;background:#e00;color:#fff;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:2px;text-decoration:none;">Shop Now →</a>
+    </div>`;
+    return;
+  }
+  container.innerHTML = orders.map(o => {
+    const statusClass = 'os-' + (o.status||'pending').toLowerCase();
+    return `
+    <div class="order-card">
+      <div class="order-card-head" onclick="toggleOrder('${o.id}')">
+        <div>
+          <div class="order-card-id">${o.id}</div>
+          <div class="order-card-date">Placed on ${o.created_at||o.date||'—'}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <span class="o-status ${statusClass}">${o.status}</span>
+          <div class="order-card-total">PKR ${(o.total||0).toLocaleString()}</div>
+          <span style="color:#aaa;font-size:14px;" id="tog-ico-${o.id}">▼</span>
+        </div>
+      </div>
+      <div class="order-card-body" id="order-body-${o.id}">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-bottom:10px;">Items Ordered</div>
+        ${(o.items||[]).map(item => `
+          <div class="order-item-row">
+            <div class="order-item-emoji">${item.emoji||'👕'}</div>
+            <div style="flex:1">
+              <div class="order-item-name">${item.name} <span style="color:#aaa;font-weight:400;">×${item.qty}</span></div>
+              <div class="order-item-meta">Size: ${item.size} · Color: ${item.color}</div>
+            </div>
+            <div class="order-item-price">PKR ${(item.price*item.qty).toLocaleString()}</div>
+          </div>
+        `).join('')}
+        <div class="order-details-grid">
+          <div class="order-detail-block"><label>Delivery Address</label><span>${o.address||'—'}</span></div>
+          <div class="order-detail-block"><label>Phone</label><span>${o.phone||'—'}</span></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-right:10px;">Total</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:#e00;">PKR ${(o.total||0).toLocaleString()}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleOrder(id) {
+  const body = document.getElementById('order-body-' + id);
+  const ico  = document.getElementById('tog-ico-' + id);
+  const open = body.classList.toggle('open');
+  if (ico) ico.textContent = open ? '▲' : '▼';
+}
+
+async function saveProfile() {
+  const name  = document.getElementById('p-name').value.trim();
+  const pass  = document.getElementById('p-pass').value;
+  const pass2 = document.getElementById('p-pass2').value;
+  if (!name) { showPMsg('⚠ Name is required', 'error'); return; }
+  if (pass && pass.length < 6) { showPMsg('⚠ Password must be at least 6 characters', 'error'); return; }
+  if (pass && pass !== pass2)  { showPMsg('⚠ Passwords do not match', 'error'); return; }
+  const result = await GentXDB.updateUserProfile(name, pass || undefined);
+  if (result.ok) {
+    document.getElementById('acc-name').textContent = name;
+    document.getElementById('p-pass').value  = '';
+    document.getElementById('p-pass2').value = '';
+    showPMsg('✓ Profile updated!', 'success');
+  } else {
+    showPMsg('⚠ ' + result.err, 'error');
+  }
+}
+
+function showPMsg(txt, type) {
+  const el = document.getElementById('p-msg');
+  el.textContent = txt;
+  el.style.display = 'block';
+  el.style.color = type === 'error' ? '#e00' : '#22c55e';
+  setTimeout(() => el.style.display = 'none', 3000);
+}
+
+function accLogout() {
+  GentXDB.logoutUser();
+  window.location.href = 'index.html';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Register — GENTX</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<script src="api.js"></script>
+<script src="ui.js"></script>
+<style>
+.auth-wrap{max-width:520px;margin:0 auto;padding:56px 24px 80px;}
+.auth-tabs{display:flex;border-bottom:2px solid #111;margin-bottom:32px;gap:0;}
+.auth-tab{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:12px 28px;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;color:#999;transition:all .2s;}
+.auth-tab.active{color:#e00;border-bottom-color:#e00;}
+.auth-panel{display:none;}.auth-panel.active{display:block;}
+.fg{margin-bottom:16px;}
+.fg label{display:block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:5px;}
+.fg input{width:100%;border:2px solid #e0e0e0;border-radius:2px;padding:12px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
+.fg input:focus{border-color:#e00;}
+.auth-btn{width:100%;background:#e00;color:#fff;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all .25s;margin-top:6px;}
+.auth-btn:hover{background:#b80000;transform:translateY(-1px);}
+.auth-err{color:#e00;font-size:13px;font-weight:600;margin-bottom:12px;padding:10px 14px;background:rgba(220,0,0,.07);border-radius:2px;display:none;}
+.auth-success{color:#22c55e;font-size:13px;font-weight:600;margin-bottom:12px;padding:10px 14px;background:rgba(34,197,94,.07);border-radius:2px;display:none;}
+.auth-divider{text-align:center;margin:14px 0;color:#ccc;font-size:12px;}
+.auth-switch{text-align:center;margin-top:18px;font-size:13px;color:#888;}
+.auth-switch a{color:#e00;font-weight:700;cursor:pointer;}
+.auth-title{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-bottom:6px;}
+.auth-title span{color:#e00;}
+.auth-sub{text-align:center;color:#888;font-size:13px;margin-bottom:32px;}
+</style>
+
+<div class="gx-page-header">
+  <h1><span>My</span> Account</h1>
+  <div class="gx-breadcrumb"><a href="index.html">Home</a> / Account</div>
+</div>
+
+<div class="auth-wrap">
+  <div class="auth-tabs">
+    <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+    <button class="auth-tab" onclick="switchTab('register')">Create Account</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="auth-panel active" id="tab-login">
+    <div class="auth-err" id="login-err"></div>
+    <div class="auth-success" id="login-ok"></div>
+    <div class="fg"><label>Email Address</label><input type="email" id="l-email" placeholder="ahmed@example.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="fg"><label>Password</label><input type="password" id="l-pass" placeholder="Your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="auth-btn" onclick="doLogin()">Sign In →</button>
+    <div class="auth-switch">Don't have an account? <a onclick="switchTab('register')">Create one</a></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="auth-panel" id="tab-register">
+    <div class="auth-err" id="reg-err"></div>
+    <div class="auth-success" id="reg-ok"></div>
+    <div class="fg"><label>Full Name</label><input type="text" id="r-name" placeholder="Ahmed Khan"></div>
+    <div class="fg"><label>Email Address</label><input type="email" id="r-email" placeholder="ahmed@example.com"></div>
+    <div class="fg"><label>Password</label><input type="password" id="r-pass" placeholder="Minimum 6 characters"></div>
+    <div class="fg"><label>Confirm Password</label><input type="password" id="r-pass2" placeholder="Repeat password" onkeydown="if(event.key==='Enter')doRegister()"></div>
+    <button class="auth-btn" onclick="doRegister()">Create Account →</button>
+    <div class="auth-switch">Already have an account? <a onclick="switchTab('login')">Sign in</a></div>
+  </div>
+</div>
+
+<footer class="gx-footer">
+  <div class="gx-footer-grid">
+    <div><div class="gx-flogo">GENT<span>X</span></div><p class="gx-ftxt">Modern fashion for confident men.</p></div>
+    <div><div class="gx-fcol-t">Quick Links</div><ul class="gx-flinks"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></div>
+    <div><div class="gx-fcol-t">Categories</div><ul class="gx-flinks" id="gx-footer-cats"></ul></div>
+    <div><div class="gx-fcol-t">Subscribe</div><div class="gx-fnews"><input type="email" id="gx-news-email" placeholder="Your email"><button onclick="GentXUI.subscribe()">JOIN</button></div></div>
+  </div>
+  <div class="gx-fbot"><p>© 2026 GENTX. All Rights Reserved.</p></div>
+</footer>
+
+<script>
+GentXUI.init('login');
+
+const _qs = new URLSearchParams(location.search);
+
+// Redirect if already logged in
+if (GentXDB.getLoggedInUser()) window.location.href = 'account.html';
+
+// Show success message if just registered
+if (_qs.get('registered')) {
+  const el = document.getElementById('login-ok');
+  if (el) { el.textContent = '✓ Account created! Please sign in.'; el.style.display = 'block'; }
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  clearErrors();
+}
+
+function clearErrors() {
+  ['login-err','login-ok','reg-err','reg-ok'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.display = 'none'; el.textContent = ''; }
+  });
+}
+
+async function doLogin() {
+  clearErrors();
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  if (!email || !pass) { showErr('login-err', '⚠ Please fill in all fields'); return; }
+  const btn = document.getElementById('l-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+  const result = await GentXDB.loginUser(email, pass);
+  if (result.ok) {
+    GentXUI.toast('✓ Welcome back, ' + result.user.name + '!');
+    const redirect = _qs.get('redirect') || 'account.html';
+    setTimeout(() => window.location.href = redirect, 500);
+  } else {
+    showErr('login-err', '⚠ ' + result.err);
+    if (btn) { btn.disabled = false; btn.textContent = 'Sign In'; }
+  }
+}
+
+async function doRegister() {
+  clearErrors();
+  const name  = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pass  = document.getElementById('r-pass').value;
+  const pass2 = document.getElementById('r-pass2').value;
+  if (!name || !email || !pass) { showErr('reg-err', '⚠ Please fill in all fields'); return; }
+  if (!email.includes('@'))     { showErr('reg-err', '⚠ Enter a valid email'); return; }
+  if (pass.length < 6)          { showErr('reg-err', '⚠ Password must be at least 6 characters'); return; }
+  if (pass !== pass2)           { showErr('reg-err', '⚠ Passwords do not match'); return; }
+  const btn = document.getElementById('r-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Creating account...'; }
+  const result = await GentXDB.registerUser(name, email, pass);
+  if (result.ok) {
+    const ok = document.getElementById('reg-ok');
+    if (ok) { ok.textContent = '✓ Account created! Redirecting...'; ok.style.display = 'block'; }
+    setTimeout(() => window.location.href = 'account.html', 1000);
+  } else {
+    showErr('reg-err', '⚠ ' + result.err);
+    if (btn) { btn.disabled = false; btn.textContent = 'Create Account'; }
+  }
+}
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+</script>
+</body>
+</html>
