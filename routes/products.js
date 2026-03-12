@@ -1,5 +1,6 @@
 const express = require('express');
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 const { requireAdmin } = require('../middleware/auth');
 const router = express.Router();
 
@@ -9,12 +10,29 @@ const fmt = p => {
   return { ...o, id: o._id, oldPrice: o.old_price || null, desc: o.description || '' };
 };
 
+// Helper: resolve category slug to all possible matching values
+async function categoryFilter(slug) {
+  // Find category by slug or name (case-insensitive)
+  const cat = await Category.findOne({
+    $or: [
+      { slug: new RegExp('^' + slug + '$', 'i') },
+      { name: new RegExp('^' + slug + '$', 'i') }
+    ]
+  });
+  // Match by slug, name, or _id
+  const values = [slug];
+  if (cat) {
+    values.push(cat.slug, cat.name, cat._id.toString());
+  }
+  return { $in: values };
+}
+
 // Public: active products
 router.get('/', async (req, res) => {
   try {
     const { category, featured, q } = req.query;
     const filter = { active: true };
-    if (category) filter.category = category;
+    if (category) filter.category = await categoryFilter(category);
     if (featured === 'true') filter.featured = true;
     if (q) filter.$or = [{ name: new RegExp(q,'i') }, { description: new RegExp(q,'i') }];
     const products = (await Product.find(filter).sort({ created_at: -1 })).map(fmt);
@@ -27,7 +45,7 @@ router.get('/all', requireAdmin, async (req, res) => {
   try {
     const { category, q } = req.query;
     const filter = {};
-    if (category) filter.category = category;
+    if (category) filter.category = await categoryFilter(category);
     if (q) filter.$or = [{ name: new RegExp(q,'i') }, { description: new RegExp(q,'i') }];
     res.json({ ok: true, products: (await Product.find(filter).sort({ created_at: -1 })).map(fmt) });
   } catch(e) { res.status(500).json({ error: e.message }); }

@@ -109,7 +109,19 @@ const SLUG = 'perfumes';
 
 (async () => {
   let activeFilter = 'all';
+  // Try by slug first, then by name if no results
   let allProds = await GentXDB.getByCategory(SLUG);
+  if (!allProds || !allProds.length) {
+    // Fallback: get all products and filter by category name containing slug
+    const allP = await GentXDB.getProducts();
+    allProds = allP.filter(p => 
+      p.category && (
+        p.category.toLowerCase() === SLUG.toLowerCase() ||
+        p.category.toLowerCase().includes(SLUG.toLowerCase()) ||
+        SLUG.toLowerCase().includes(p.category.toLowerCase())
+      )
+    );
+  }
 
   // Sub-filter pills
   const badges = [...new Set(allProds.map(p=>p.badge).filter(Boolean))];

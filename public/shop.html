@@ -63,7 +63,7 @@ input[type=range]{width:100%;accent-color:#e00;height:4px;}
     <div class="sb-title">Filters</div>
     <div class="sb-section">
       <div class="sb-label">Price Range</div>
-      <input type="range" min="1000" max="9000" value="9000" id="price-range" oninput="applyFilters()">
+      <input type="range" min="1000" max="100000" value="9000" id="price-range" oninput="applyFilters()">
       <div class="price-disp">Up to: <strong>PKR <span id="price-val">9,000</span></strong></div>
     </div>
     <div class="sb-section">
@@ -131,7 +131,7 @@ function setCat(slug, btn) {
 }
 
 async function applyFilters() {
-  const priceMax = parseInt(document.getElementById('price-range').value);
+  const priceMax = parseInt(document.getElementById('price-range').value) || 999999;
   document.getElementById('price-val').textContent = priceMax.toLocaleString();
   const saleF     = document.getElementById('f-sale')?.checked;
   const newF      = document.getElementById('f-new')?.checked;
@@ -152,7 +152,7 @@ async function applyFilters() {
   // sort
   if (sort==='low')    prods.sort((a,b)=>a.price-b.price);
   else if(sort==='high')   prods.sort((a,b)=>b.price-a.price);
-  else if(sort==='newest') prods.sort((a,b)=>b.createdAt?.localeCompare(a.createdAt||'')||0);
+  else if(sort==='newest') prods.sort((a,b)=>(b.created_at||b.createdAt||'').localeCompare(a.created_at||a.createdAt||''));
   else if(sort==='name')   prods.sort((a,b)=>a.name.localeCompare(b.name));
 
   // handle URL search query
@@ -166,8 +166,8 @@ async function applyFilters() {
 
 function clearFilters() {
   activeCat = 'all';
-  document.getElementById('price-range').value = 9000;
-  document.getElementById('price-val').textContent = '9,000';
+  document.getElementById('price-range').value = 100000;
+  document.getElementById('price-val').textContent = '100,000';
   ['f-sale','f-new','f-featured'].forEach(id=>{ const el=document.getElementById(id); if(el) el.checked=false; });
   cats.forEach(c=>{ const el=document.getElementById('fc-'+c.slug); if(el) el.checked=false; });
   document.querySelectorAll('.pill').forEach((p,i)=>p.classList.toggle('active',i===0));
