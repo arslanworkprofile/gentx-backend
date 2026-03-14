@@ -612,24 +612,58 @@ tr:hover td{background:rgba(255,255,255,.02);}
 
 <!-- ORDER STATUS MODAL -->
 <div class="modal-backdrop" id="order-modal">
-  <div class="modal" style="max-width:400px">
+  <div class="modal" style="max-width:580px">
     <div class="modal-head">
-      <div class="modal-title">Update Order Status</div>
+      <div class="modal-title">Order Details</div>
       <button class="modal-close" onclick="closeModal('order-modal')">✕</button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="padding:0">
       <input type="hidden" id="om-id">
-      <div class="form-group"><label>Order ID</label><input type="text" id="om-display-id" disabled></div>
-      <div class="form-group"><label>New Status</label>
-        <select id="om-status">
-          <option>Pending</option><option>Processing</option>
-          <option>Shipped</option><option>Delivered</option><option>Cancelled</option>
-        </select>
+
+      <!-- Order Header -->
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red);font-size:18px;" id="om-display-id"></div>
+          <div style="color:var(--muted);font-size:12px;" id="om-date"></div>
+        </div>
+        <span id="om-status-badge" style="padding:4px 12px;border-radius:3px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;"></span>
+      </div>
+
+      <!-- Customer Info -->
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Customer Info</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div><div style="color:var(--muted);font-size:11px;margin-bottom:2px;">Name</div><div id="om-name" style="font-weight:600;font-size:14px;"></div></div>
+          <div><div style="color:var(--muted);font-size:11px;margin-bottom:2px;">Phone</div><div id="om-phone" style="font-weight:600;font-size:14px;"></div></div>
+          <div style="grid-column:1/-1"><div style="color:var(--muted);font-size:11px;margin-bottom:2px;">Address</div><div id="om-address" style="font-weight:600;font-size:14px;"></div></div>
+          <div><div style="color:var(--muted);font-size:11px;margin-bottom:2px;">Notes</div><div id="om-city" style="font-weight:600;font-size:14px;"></div></div>
+          <div><div style="color:var(--muted);font-size:11px;margin-bottom:2px;">Email</div><div id="om-email" style="font-weight:600;font-size:14px;"></div></div>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Items Ordered</div>
+        <div id="om-items"></div>
+      </div>
+
+      <!-- Total + Status Update -->
+      <div style="padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div style="color:var(--muted);font-size:11px;margin-bottom:2px;">Order Total</div>
+          <div id="om-total" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;color:var(--red);"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <select id="om-status" style="padding:8px 12px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;font-size:13px;">
+            <option>Pending</option><option>Processing</option>
+            <option>Shipped</option><option>Delivered</option><option>Cancelled</option>
+          </select>
+          <button class="modal-btn save" onclick="saveOrderStatus()">Update</button>
+        </div>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="modal-btn cancel" onclick="closeModal('order-modal')">Cancel</button>
-      <button class="modal-btn save" onclick="saveOrderStatus()">Update Status</button>
+      <button class="modal-btn cancel" onclick="closeModal('order-modal')">Close</button>
     </div>
   </div>
 </div>
@@ -1092,7 +1126,7 @@ async function renderOrdersTable() {
         <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700">PKR ${(o.total||0).toLocaleString()}</td>
         <td>${o.created_at||o.date||'—'}</td>
         <td><span class="order-status os-${(o.status||'pending').toLowerCase()}">${o.status}</span></td>
-        <td><button class="action-btn edit" onclick="openUpdateOrder('${o.id}')">Update</button>
+        <td><button class="action-btn view" onclick="openUpdateOrder('${o.id}')">View</button>
             <button class="action-btn del" onclick="deleteOrder('${o.id}')">✕</button></td>
       </tr>
     `).join('');
@@ -1104,9 +1138,48 @@ async function openUpdateOrder(id) {
   const result = await GentXDB.getOrders();
   _ordersCache = result.orders || [];
   const o = _ordersCache.find(x => x.id === id); if (!o) return;
+
   document.getElementById('om-id').value = o.id;
-  document.getElementById('om-display-id').value = o.id;
-  document.getElementById('om-status').value = o.status;
+  document.getElementById('om-display-id').textContent = '#' + o.id;
+  document.getElementById('om-date').textContent = o.created_at || o.date || '';
+  document.getElementById('om-status').value = o.status || 'Pending';
+
+  // Status badge
+  const badge = document.getElementById('om-status-badge');
+  const colors = { pending:'#f59e0b', processing:'#3b82f6', shipped:'#8b5cf6', delivered:'#10b981', cancelled:'#ef4444' };
+  const s = (o.status||'pending').toLowerCase();
+  badge.textContent = o.status || 'Pending';
+  badge.style.background = (colors[s] || '#888') + '22';
+  badge.style.color = colors[s] || '#888';
+  badge.style.border = '1px solid ' + (colors[s] || '#888') + '55';
+
+  // Customer info - address is stored as "street, city, province"
+  document.getElementById('om-name').textContent    = o.customer || '—';
+  document.getElementById('om-phone').textContent   = o.phone || '—';
+  document.getElementById('om-address').textContent = o.address || '—';
+  document.getElementById('om-city').textContent    = o.notes || '—';
+  document.getElementById('om-email').textContent   = o.email || '—';
+
+  // Items
+  const items = o.items || o.cart || [];
+  document.getElementById('om-items').innerHTML = items.length
+    ? items.map(i => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+          <div>
+            <div style="font-weight:600;font-size:14px;">${i.name||i.title||'Item'}</div>
+            <div style="color:var(--muted);font-size:12px;">
+              Qty: ${i.qty||i.quantity||1}
+              ${i.size ? ' · Size: '+i.size : ''}
+              ${i.color ? ' · Color: '+i.color : ''}
+            </div>
+          </div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;">PKR ${((i.price||0)*(i.qty||i.quantity||1)).toLocaleString()}</div>
+        </div>`).join('')
+    : '<div style="color:var(--muted);font-size:13px;">No items found</div>';
+
+  // Total
+  document.getElementById('om-total').textContent = 'PKR ' + (o.total||0).toLocaleString();
+
   openModal('order-modal');
 }
 
