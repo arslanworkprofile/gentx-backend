@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const VariantSchema = new mongoose.Schema({
+  color: { type: String },
+  sizes: { type: String, default: 'S,M,L,XL,XXL' },
+  image: { type: String, default: null },
+}, { _id: false });
+
 const ProductSchema = new mongoose.Schema({
   _id:         { type: String },
   name:        { type: String, required: true },
@@ -13,6 +19,7 @@ const ProductSchema = new mongoose.Schema({
   stock:       { type: Number, default: 0 },
   sizes:       { type: [String], default: [] },
   colors:      { type: [String], default: [] },
+  variants:    { type: [VariantSchema], default: [] },
   description: { type: String, default: '' },
   featured:    { type: Boolean, default: false },
   active:      { type: Boolean, default: true },

@@ -63,7 +63,7 @@ router.get('/:id', async (req, res) => {
 // Create product
 router.post('/', requireAdmin, async (req, res) => {
   try {
-    const { name, category, emoji, image, gallery, badge, price, oldPrice, stock, sizes, colors, description, featured, active } = req.body;
+    const { name, category, emoji, image, gallery, badge, price, oldPrice, stock, sizes, colors, variants, description, featured, active } = req.body;
     if (!name || !price || !category) return res.status(400).json({ error: 'Name, price and category required' });
     const id = 'p' + Date.now();
     const p = await Product.create({
@@ -77,6 +77,7 @@ router.post('/', requireAdmin, async (req, res) => {
       stock: parseInt(stock) || 0,
       sizes: Array.isArray(sizes) ? sizes : (sizes ? sizes.split(',').map(s=>s.trim()) : []),
       colors: Array.isArray(colors) ? colors : (colors ? colors.split(',').map(c=>c.trim()) : []),
+      variants: Array.isArray(variants) ? variants : [],
       description: description || '',
       featured: !!featured,
       active: active !== false,
@@ -90,7 +91,7 @@ router.put('/:id', requireAdmin, async (req, res) => {
   try {
     const ex = await Product.findById(req.params.id);
     if (!ex) return res.status(404).json({ error: 'Not found' });
-    const { name, category, emoji, image, gallery, badge, price, oldPrice, stock, sizes, colors, description, featured, active } = req.body;
+    const { name, category, emoji, image, gallery, badge, price, oldPrice, stock, sizes, colors, variants, description, featured, active } = req.body;
     const update = {};
     if (name !== undefined)        update.name = name;
     if (category !== undefined)    update.category = category;
@@ -103,6 +104,7 @@ router.put('/:id', requireAdmin, async (req, res) => {
     if (stock !== undefined)       update.stock = parseInt(stock);
     if (sizes !== undefined)       update.sizes = Array.isArray(sizes) ? sizes : sizes.split(',').map(s=>s.trim());
     if (colors !== undefined)      update.colors = Array.isArray(colors) ? colors : colors.split(',').map(c=>c.trim());
+    if (variants !== undefined)    update.variants = Array.isArray(variants) ? variants : [];
     if (description !== undefined) update.description = description;
     if (featured !== undefined)    update.featured = !!featured;
     if (active !== undefined)      update.active = !!active;

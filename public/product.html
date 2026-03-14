@@ -256,6 +256,22 @@ if (!product || !product.active) {
     selectedColor = c;
     document.getElementById('col-label').textContent = c;
     document.getElementById('color-btns').innerHTML = renderColors();
+    // Switch image if this color has a variant image
+    const variant = (product.variants||[]).find(v => v.color && v.color.toLowerCase() === c.toLowerCase());
+    if (variant && variant.image) {
+      const mainImg = document.getElementById('main-img');
+      mainImg.innerHTML = `<img src="${variant.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;transition:opacity .3s;">`;
+      mainImg.style.background = '#000';
+      // Also update sizes for this variant
+      if (variant.sizes) {
+        const variantSizes = variant.sizes.split(',').map(s=>s.trim()).filter(Boolean);
+        if (variantSizes.length) {
+          document.getElementById('size-btns').innerHTML = variantSizes.map(s =>
+            `<button class="size-btn ${s===selectedSize?'active':''}" onclick="selectSize('${s}')">${s}</button>`
+          ).join('');
+        }
+      }
+    }
   };
   window.changeQty = (d) => {
     qty = Math.max(1, Math.min(qty + d, product.stock));
