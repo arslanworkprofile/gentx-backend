@@ -4,18 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop — GENTX</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <script src="api.js"></script>
 <script src="ui.js"></script>
 <style>
+    * { font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif; }
 .shop-wrap{max-width:1400px;margin:0 auto;padding:36px 32px 80px;display:grid;grid-template-columns:256px 1fr;gap:44px;}
 /* SIDEBAR */
 .sidebar{position:sticky;top:130px;align-self:start;}
-.sb-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;padding-bottom:10px;border-bottom:3px solid #e00;}
+.sb-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:22px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;padding-bottom:10px;border-bottom:3px solid #e00;}
 .sb-section{margin-bottom:28px;}
-.sb-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#999;margin-bottom:12px;}
+.sb-label{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#999;margin-bottom:12px;}
 input[type=range]{width:100%;accent-color:#e00;height:4px;}
 .price-disp{font-size:13px;color:#666;margin-top:7px;}
 .price-disp strong{color:#e00;font-weight:700;}
@@ -24,7 +25,7 @@ input[type=range]{width:100%;accent-color:#e00;height:4px;}
 .fcheck input[type=checkbox]{accent-color:#e00;width:14px;height:14px;cursor:pointer;}
 .fcheck label{font-size:13px;color:#555;cursor:pointer;transition:color .2s;}
 .fcheck:hover label{color:#e00;}
-.clear-btn{display:block;width:100%;padding:10px;background:transparent;border:2px solid #111;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;border-radius:2px;margin-top:6px;}
+.clear-btn{display:block;width:100%;padding:10px;background:transparent;border:2px solid #111;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;border-radius:2px;margin-top:6px;}
 .clear-btn:hover{background:#e00;border-color:#e00;color:#fff;}
 /* PRODUCTS AREA */
 .prod-area{}
@@ -34,10 +35,10 @@ input[type=range]{width:100%;accent-color:#e00;height:4px;}
 .sort-sel{border:1px solid #e0e0e0;padding:8px 12px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s;border-radius:2px;}
 .sort-sel:focus{border-color:#e00;}
 .cat-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px;}
-.pill{padding:7px 16px;border:2px solid #e0e0e0;background:none;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;border-radius:2px;transition:all .2s;cursor:pointer;}
+.pill{padding:7px 16px;border:2px solid #e0e0e0;background:none;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;border-radius:2px;transition:all .2s;cursor:pointer;}
 .pill:hover,.pill.active{border-color:#e00;color:#e00;background:rgba(220,0,0,.05);}
 /* mobile sidebar toggle */
-.mob-filter-btn{display:none;align-items:center;gap:8px;padding:9px 18px;border:2px solid #111;background:none;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:all .2s;}
+.mob-filter-btn{display:none;align-items:center;gap:8px;padding:9px 18px;border:2px solid #111;background:none;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:all .2s;}
 .mob-filter-btn:hover{background:#111;color:#fff;}
 .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:490;opacity:0;visibility:hidden;transition:.3s;}
 .sidebar-overlay.open{opacity:1;visibility:visible;}

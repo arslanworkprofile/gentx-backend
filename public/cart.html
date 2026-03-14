@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cart — GENTX</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <script src="api.js"></script>
 <script src="ui.js"></script>
 <style>
+    * { font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif; }
 .cart-main{max-width:1160px;margin:0 auto;padding:44px 32px 80px;display:grid;grid-template-columns:1fr 360px;gap:36px;align-items:start;}
 /* Items */
 .cart-items-wrap{}
-.cart-col-heads{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;padding:0 0 12px;border-bottom:2px solid #111;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#bbb;}
+.cart-col-heads{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;padding:0 0 12px;border-bottom:2px solid #111;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#bbb;}
 .cart-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:center;padding:18px 0;border-bottom:1px solid #f0f0f0;}
 .cart-prod{display:flex;align-items:center;gap:14px;}
 .cart-prod-img{width:70px;height:88px;background:#f5f5f5;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;cursor:pointer;transition:opacity .2s;}
@@ -21,35 +22,35 @@
 .cart-prod-name{font-size:14px;font-weight:600;color:#111;line-height:1.3;cursor:pointer;transition:color .2s;}
 .cart-prod-name:hover{color:#e00;}
 .cart-prod-meta{font-size:11px;color:#bbb;margin-top:3px;}
-.cart-price{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#666;}
+.cart-price{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:16px;font-weight:700;color:#666;}
 .qty-ctrl{display:flex;align-items:center;border:1px solid #e0e0e0;border-radius:2px;width:fit-content;overflow:hidden;}
 .q-btn{width:30px;height:30px;background:#f5f5f5;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .q-btn:hover{background:#e00;color:#fff;}
 .q-val{width:34px;text-align:center;font-size:13px;font-weight:700;border-left:1px solid #e0e0e0;border-right:1px solid #e0e0e0;padding:4px 0;}
-.cart-total{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:#111;}
+.cart-total{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:18px;font-weight:800;color:#111;}
 .rem-btn{width:28px;height:28px;background:none;color:#ccc;font-size:16px;display:flex;align-items:center;justify-content:center;border-radius:2px;transition:all .2s;}
 .rem-btn:hover{background:rgba(220,0,0,.1);color:#e00;}
 /* Empty cart */
 .empty-cart{text-align:center;padding:80px 20px;}
 .empty-icon{font-size:64px;margin-bottom:18px;}
-.empty-cart h2{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.empty-cart h2{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:36px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
 .empty-cart p{color:#888;font-size:14px;margin-bottom:26px;}
 /* Summary */
 .order-summary{background:#f8f8f8;border:2px solid #111;padding:28px;border-radius:2px;position:sticky;top:130px;}
-.sum-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #e00;}
+.sum-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:20px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #e00;}
 /* promo */
 .promo-row{display:flex;border:1px solid #e0e0e0;border-radius:2px;overflow:hidden;margin-bottom:20px;}
 .promo-row input{flex:1;border:none;outline:none;padding:10px 14px;font-size:13px;font-family:inherit;}
-.promo-row button{background:#111;color:#fff;padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:background .2s;}
+.promo-row button{background:#111;color:#fff;padding:10px 16px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:background .2s;}
 .promo-row button:hover{background:#e00;}
 .sum-line{display:flex;justify-content:space-between;margin-bottom:10px;font-size:14px;}
 .sum-line span:last-child{font-weight:600;}
 .sum-line.discount span:last-child{color:#e00;}
 hr.sum-hr{border:none;border-top:1px solid #e0e0e0;margin:14px 0;}
 .sum-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;}
-.sum-total span:first-child{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
-.sum-total span:last-child{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#e00;}
-.checkout-btn{display:block;width:100%;background:#e00;color:#fff;padding:16px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;text-align:center;border-radius:2px;transition:all .3s;margin-bottom:10px;}
+.sum-total span:first-child{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+.sum-total span:last-child{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:28px;font-weight:900;color:#e00;}
+.checkout-btn{display:block;width:100%;background:#e00;color:#fff;padding:16px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;text-align:center;border-radius:2px;transition:all .3s;margin-bottom:10px;}
 .checkout-btn:hover{background:#b80000;transform:translateY(-2px);box-shadow:0 6px 20px rgba(220,0,0,.3);}
 .cont-link{display:block;text-align:center;font-size:13px;color:#aaa;transition:color .2s;}
 .cont-link:hover{color:#e00;}

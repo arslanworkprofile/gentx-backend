@@ -4,28 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GENTX — Modern Streetwear 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <script src="api.js"></script>
 <script src="ui.js"></script>
 
 <style>
+    * { font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif; }
 /* HERO */
 .hero{background:#f5f5f5;padding:20px 32px 30px;}
 .hero-wrap{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:stretch;}
 .hero-left{position:relative;overflow:hidden;border-radius:4px;min-height:560px;background:#111;display:flex;align-items:flex-end;}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#111 0%,#2a2a2a 50%,#111 100%);display:flex;align-items:center;justify-content:center;}
-.hero-bg-text{font-family:'Barlow Condensed',sans-serif;font-size:200px;font-weight:900;color:rgba(255,255,255,.04);letter-spacing:.05em;line-height:1;text-align:center;user-select:none;}
+.hero-bg-text{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:200px;font-weight:900;color:rgba(255,255,255,.04);letter-spacing:.05em;line-height:1;text-align:center;user-select:none;}
 .hero-overlay{position:relative;z-index:2;padding:40px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 60%,transparent 100%);width:100%;}
-.hero-overlay h1{font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;color:#fff;letter-spacing:.04em;line-height:.9;text-transform:uppercase;margin-bottom:12px;}
+.hero-overlay h1{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:72px;font-weight:900;color:#fff;letter-spacing:.04em;line-height:.9;text-transform:uppercase;margin-bottom:12px;}
 .hero-overlay h1 span{color:#e00;}
 .hero-overlay p{color:rgba(255,255,255,.7);font-size:15px;margin-bottom:24px;}
-.hero-cta{display:inline-flex;align-items:center;gap:8px;background:#e00;color:#fff;padding:13px 28px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:#e00;color:#fff;padding:13px 28px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:16px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;}
 .hero-cta:hover{background:#b80000;transform:translateX(4px);}
 /* Hero right */
 .hero-right{display:block;}
-.hero-right-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #e00;}
+.hero-right-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:26px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #e00;}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 
 /* PERKS */
@@ -34,7 +35,7 @@
 .perk{text-align:center;padding:20px 14px;border:1px solid rgba(255,255,255,.07);border-radius:2px;transition:border-color .3s;}
 .perk:hover{border-color:#e00;}
 .perk-icon{font-size:26px;margin-bottom:10px;}
-.perk-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:4px;}
+.perk-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:4px;}
 .perk-desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;}
 
 /* CATEGORY GRID */
@@ -44,8 +45,8 @@
 .cat-big-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);opacity:0;transition:opacity .35s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
 .cat-big:hover .cat-big-overlay{opacity:1;}
 .cat-always{position:absolute;bottom:0;left:0;right:0;padding:24px 20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);text-align:center;}
-.cat-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#fff;}
-.cat-btn{display:inline-block;background:#fff;color:#111;padding:9px 22px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;}
+.cat-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:26px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#fff;}
+.cat-btn{display:inline-block;background:#fff;color:#111;padding:9px 22px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:all .25s;}
 .cat-btn:hover{background:#e00;color:#fff;}
 /* All categories */
 .cat-grid-all{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
@@ -55,20 +56,20 @@
 .cat-sm-cover{position:absolute;inset:0;background:rgba(0,0,0,.3);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
 .cat-sm:hover .cat-sm-cover{opacity:1;}
 .cat-sm-always{position:absolute;bottom:0;left:0;right:0;padding:18px 12px 14px;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);text-align:center;}
-.cat-sm-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
-.cat-sm-shop{display:inline-block;background:#e00;color:#fff;padding:6px 16px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.cat-sm-name{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:18px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
+.cat-sm-shop{display:inline-block;background:#e00;color:#fff;padding:6px 16px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
 
 /* ABOUT */
 .about-wrap{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 .about-img{position:relative;aspect-ratio:1;background:linear-gradient(135deg,#111,#2a2a2a);border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.about-img-text{font-family:'Barlow Condensed',sans-serif;font-size:100px;font-weight:900;color:rgba(255,255,255,.06);letter-spacing:.05em;}
+.about-img-text{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:100px;font-weight:900;color:rgba(255,255,255,.06);letter-spacing:.05em;}
 .about-img::after{content:'';position:absolute;top:12px;left:12px;right:-8px;bottom:-8px;border:3px solid #e00;border-radius:3px;z-index:-1;}
 .about-eyebrow{font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#e00;margin-bottom:10px;}
-.about-title{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;line-height:.95;margin-bottom:20px;}
+.about-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:52px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;line-height:.95;margin-bottom:20px;}
 .about-title span{color:#e00;}
 .about-text{font-size:14px;color:#666;line-height:1.9;margin-bottom:14px;}
 .about-stats{display:flex;gap:36px;padding:22px 0;border-top:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;margin:24px 0;}
-.stat-n{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:900;color:#e00;line-height:1;}
+.stat-n{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:38px;font-weight:900;color:#e00;line-height:1;}
 .stat-l{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-top:3px;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
@@ -234,7 +235,7 @@ document.getElementById('all-cats').innerHTML = allCats.map(c => {
   `<div class="cat-sm" style="background:#e00;cursor:pointer" onclick="window.location='shop.html'">
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
       <div style="font-size:48px">🔥</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:#fff;letter-spacing:.1em;text-align:center;padding:0 12px">VIEW ALL</div>
+      <div style="font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:20px;font-weight:900;color:#fff;letter-spacing:.1em;text-align:center;padding:0 12px">VIEW ALL</div>
     </div>
   </div>`;
 })();

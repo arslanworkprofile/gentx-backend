@@ -4,27 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact — GENTX</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <script src="api.js"></script>
 <script src="ui.js"></script>
 <style>
+    * { font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif; }
 .contact-wrap{max-width:1200px;margin:0 auto;padding:56px 32px 80px;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start;}
-.contact-info h2{font-family:'Barlow Condensed',sans-serif;font-size:46px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;line-height:.95;margin-bottom:14px;}
+.contact-info h2{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:46px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;line-height:.95;margin-bottom:14px;}
 .contact-info h2 span{color:#e00;}
 .contact-info p{font-size:14px;color:#666;line-height:1.9;margin-bottom:32px;}
 .info-cards{display:flex;flex-direction:column;gap:14px;margin-bottom:32px;}
 .info-card{display:flex;gap:16px;padding:18px;background:#f8f8f8;border-left:4px solid #e00;border-radius:2px;}
 .info-icon{font-size:22px;flex-shrink:0;}
-.info-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#e00;margin-bottom:3px;}
+.info-label{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#e00;margin-bottom:3px;}
 .info-val{font-size:13px;color:#555;line-height:1.6;}
 .social-row{display:flex;gap:10px;}
-.soc{padding:9px 18px;background:#111;color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:background .2s;}
+.soc{padding:9px 18px;background:#111;color:#fff;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;transition:background .2s;}
 .soc:hover{background:#e00;}
 .contact-form-wrap{background:#f8f8f8;border:2px solid #111;padding:36px;border-radius:3px;}
-.form-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
+.form-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:26px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;}
 .form-sub{font-size:13px;color:#888;margin-bottom:26px;}
 .form-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .fg{margin-bottom:14px;}
@@ -32,13 +33,13 @@
 .fg input,.fg select,.fg textarea{width:100%;border:2px solid #e8e8e8;border-radius:2px;padding:11px 14px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;background:#fff;}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#e00;}
 .fg textarea{resize:vertical;min-height:120px;}
-.send-btn{display:block;width:100%;background:#e00;color:#fff;padding:15px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;margin-top:6px;cursor:pointer;border:none;}
+.send-btn{display:block;width:100%;background:#e00;color:#fff;padding:15px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:17px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;margin-top:6px;cursor:pointer;border:none;}
 .send-btn:hover{background:#b80000;transform:translateY(-1px);box-shadow:0 6px 20px rgba(220,0,0,.3);}
 .send-btn:disabled{background:#aaa;transform:none;box-shadow:none;cursor:not-allowed;}
 .faq-sec{background:#f5f5f5;padding:72px 32px;}
 .faq-inner{max-width:880px;margin:0 auto;}
 .faq-item{border-bottom:1px solid #e0e0e0;overflow:hidden;}
-.faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 0;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 0;cursor:pointer;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:17px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;}
 .faq-q:hover{color:#e00;}
 .faq-icon{font-size:20px;color:#e00;transition:transform .25s;}
 .faq-item.open .faq-icon{transform:rotate(45deg);}

@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product — GENTX</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <script src="api.js"></script>
 <script src="ui.js"></script>
 <style>
+    * { font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif; }
 .prod-layout{max-width:1200px;margin:0 auto;padding:48px 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
 .prod-img-col{}
 .prod-img-main{aspect-ratio:4/5;background:#f5f5f5;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:180px;overflow:hidden;position:relative;}
@@ -20,12 +21,12 @@
 /* INFO */
 .prod-info-col{}
 .prod-brand{font-size:11px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
-.prod-name{font-family:'Barlow Condensed',sans-serif;font-size:44px;font-weight:900;letter-spacing:.03em;line-height:1;margin-bottom:14px;text-transform:uppercase;}
+.prod-name{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:44px;font-weight:900;letter-spacing:.03em;line-height:1;margin-bottom:14px;text-transform:uppercase;}
 .prod-rating{display:flex;align-items:center;gap:8px;margin-bottom:18px;}
 .stars{color:#e00;font-size:14px;letter-spacing:2px;}
 .rating-count{font-size:12px;color:#999;}
 .prod-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;}
-.prod-price{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:#e00;}
+.prod-price{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:36px;font-weight:900;color:#e00;}
 .prod-old{font-size:18px;color:#bbb;text-decoration:line-through;}
 .prod-save{display:inline-block;background:rgba(220,0,0,.1);color:#e00;border:1px solid rgba(220,0,0,.2);padding:3px 10px;font-size:12px;font-weight:700;border-radius:2px;letter-spacing:.08em;}
 .prod-stock{font-size:13px;margin-bottom:22px;}
@@ -45,9 +46,9 @@
 .qty-box button{width:40px;height:48px;background:#f5f5f5;font-size:20px;color:#333;transition:all .2s;}
 .qty-box button:hover{background:#e00;color:#fff;}
 .qty-box span{width:50px;text-align:center;font-size:16px;font-weight:700;border-left:2px solid #111;border-right:2px solid #111;padding:0 8px;line-height:48px;}
-.add-cart-btn{flex:1;background:#e00;color:#fff;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.add-cart-btn{flex:1;background:#e00;color:#fff;padding:14px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:18px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;border-radius:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .add-cart-btn:hover{background:#b80000;transform:translateY(-2px);box-shadow:0 6px 20px rgba(220,0,0,.3);}
-.buy-now-btn{width:100%;background:#111;color:#fff;padding:14px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
+.buy-now-btn{width:100%;background:#111;color:#fff;padding:14px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:16px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
 .buy-now-btn:hover{background:#333;}
 /* Trust badges */
 .trust-badges{display:flex;gap:20px;padding:14px 0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin:16px 0;}
@@ -56,22 +57,22 @@
 /* Tabs */
 .prod-tabs{margin-top:48px;}
 .tab-btns{display:flex;border-bottom:2px solid #e8e8e8;margin-bottom:24px;}
-.tab-btn{padding:12px 20px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#999;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;cursor:pointer;}
+.tab-btn{padding:12px 20px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#999;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;cursor:pointer;}
 .tab-btn.active{color:#e00;border-bottom-color:#e00;}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;}
 .prod-desc{font-size:14px;color:#555;line-height:1.9;}
 .size-guide-table{width:100%;border-collapse:collapse;font-size:13px;}
-.size-guide-table th{background:#111;color:#fff;padding:10px 14px;text-align:left;font-family:'Barlow Condensed',sans-serif;letter-spacing:.1em;}
+.size-guide-table th{background:#111;color:#fff;padding:10px 14px;text-align:left;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;letter-spacing:.1em;}
 .size-guide-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;}
 .size-guide-table tr:hover td{background:#fafafa;}
 /* Related */
 .related-sec{max-width:1200px;margin:0 auto;padding:0 32px 80px;}
-.related-sec h2{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;}
+.related-sec h2{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:32px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;}
 .related-sec h2 span{color:#e00;}
 /* Not found */
 .not-found{text-align:center;padding:120px 20px;}
-.not-found h2{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+.not-found h2{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:40px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
 @media(max-width:900px){.prod-layout{grid-template-columns:1fr;gap:32px;}.prod-name{font-size:36px;}}
 @media(max-width:600px){.prod-layout{padding:24px 16px 60px;}.related-sec{padding:0 16px 60px;}.qty-add-row{flex-direction:column;align-items:stretch;}.add-cart-btn{width:100%;}.prod-name{font-size:30px;}}
 </style>

@@ -4,33 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Account — GENTX</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <script src="api.js"></script>
 <script src="ui.js"></script>
 <style>
+    * { font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif; }
 .acc-wrap{max-width:1000px;margin:0 auto;padding:48px 24px 80px;display:grid;grid-template-columns:240px 1fr;gap:32px;align-items:start;}
 .acc-sidebar{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:3px;padding:24px;position:sticky;top:130px;}
 .acc-avatar{width:72px;height:72px;background:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;}
-.acc-name{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;text-align:center;letter-spacing:.06em;}
+.acc-name{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:22px;font-weight:800;text-align:center;letter-spacing:.06em;}
 .acc-email{font-size:12px;color:#888;text-align:center;margin-bottom:20px;}
 .acc-nav{display:flex;flex-direction:column;gap:2px;}
 .acc-nav-item{padding:10px 14px;border-radius:2px;font-size:14px;font-weight:600;color:#555;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
 .acc-nav-item:hover{background:#ffe5e5;color:#e00;}
 .acc-nav-item.active{background:rgba(220,0,0,.1);color:#e00;}
-.acc-logout{margin-top:16px;width:100%;padding:10px;background:none;border:2px solid #e0e0e0;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;cursor:pointer;transition:all .2s;}
+.acc-logout{margin-top:16px;width:100%;padding:10px;background:none;border:2px solid #e0e0e0;border-radius:2px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#888;cursor:pointer;transition:all .2s;}
 .acc-logout:hover{border-color:#e00;color:#e00;}
 /* panels */
 .acc-panel{display:none;}.acc-panel.active{display:block;}
-.acc-panel-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #e00;}
+.acc-panel-title{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:28px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid #e00;}
 /* orders */
 .order-card{border:1px solid #e8e8e8;border-radius:3px;margin-bottom:16px;overflow:hidden;transition:border-color .2s;}
 .order-card:hover{border-color:#e00;}
 .order-card-head{padding:14px 18px;background:#f8f8f8;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;cursor:pointer;}
-.order-card-id{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.08em;color:#e00;}
+.order-card-id{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:18px;font-weight:800;letter-spacing:.08em;color:#e00;}
 .order-card-date{font-size:12px;color:#888;}
-.order-card-total{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;}
+.order-card-total{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:20px;font-weight:700;}
 .o-status{display:inline-block;padding:3px 10px;border-radius:2px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
 .os-pending{background:rgba(234,179,8,.15);color:#ca8a04;}
 .os-processing{background:rgba(59,130,246,.15);color:#3b82f6;}
@@ -44,20 +45,20 @@
 .order-item-emoji{font-size:28px;flex-shrink:0;}
 .order-item-name{font-size:13px;font-weight:600;flex:1;}
 .order-item-meta{font-size:11px;color:#888;margin-top:2px;}
-.order-item-price{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:#e00;}
+.order-item-price{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:16px;font-weight:700;color:#e00;}
 .order-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid #e8e8e8;}
 .order-detail-block label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#aaa;display:block;margin-bottom:3px;}
 .order-detail-block span{font-size:13px;font-weight:600;color:#333;}
 .empty-state{text-align:center;padding:60px 20px;color:#ccc;}
 .empty-state .es-icon{font-size:60px;margin-bottom:16px;}
-.empty-state h3{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#bbb;margin-bottom:8px;}
+.empty-state h3{font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:26px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#bbb;margin-bottom:8px;}
 .empty-state p{font-size:13px;color:#ccc;margin-bottom:20px;}
 /* profile form */
 .fg{margin-bottom:16px;}
 .fg label{display:block;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#888;margin-bottom:5px;}
 .fg input{width:100%;border:2px solid #e0e0e0;border-radius:2px;padding:12px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
 .fg input:focus{border-color:#e00;}
-.save-btn{background:#e00;color:#fff;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all .2s;}
+.save-btn{background:#e00;color:#fff;padding:12px 28px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:all .2s;}
 .save-btn:hover{background:#b80000;}
 @media(max-width:768px){
   .acc-wrap{grid-template-columns:1fr;}
@@ -146,7 +147,7 @@ async function renderOrders() {
       <div class="es-icon">📦</div>
       <h3>No Orders Yet</h3>
       <p>You haven't placed any orders. Start shopping!</p>
-      <a href="shop.html" style="display:inline-block;background:#e00;color:#fff;padding:12px 28px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:2px;text-decoration:none;">Shop Now →</a>
+      <a href="shop.html" style="display:inline-block;background:#e00;color:#fff;padding:12px 28px;font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:16px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:2px;text-decoration:none;">Shop Now →</a>
     </div>`;
     return;
   }
@@ -182,8 +183,8 @@ async function renderOrders() {
           <div class="order-detail-block"><label>Phone</label><span>${o.phone||'—'}</span></div>
         </div>
         <div style="display:flex;justify-content:flex-end;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0;">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-right:10px;">Total</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:#e00;">PKR ${(o.total||0).toLocaleString()}</div>
+          <div style="font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-right:10px;">Total</div>
+          <div style="font-family:'Futura','Futura PT','Century Gothic','Jost',sans-serif;font-size:26px;font-weight:900;color:#e00;">PKR ${(o.total||0).toLocaleString()}</div>
         </div>
       </div>
     </div>`;
